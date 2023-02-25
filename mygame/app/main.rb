@@ -2,10 +2,15 @@ def tick (args)
   
   initialize_game args
   background args
+  musicBackground args
   move args
 
 end
 
+def musicBackground args
+  args.outputs.sounds << 'sounds/forest.ogg'
+
+end
 
 def title arg
 
@@ -114,12 +119,12 @@ def title arg
   end
 
   def initialize_game (args)
-  args.state.x ||= 576
+  args.state.x ||= 250
   args.state.y ||= 50
   args.state.screenWidth ||= 1280
-  args.state.player.direction ||= 1
+  args.state.player.direction ||= -1
   args.state.trigger_sample ||= 0
-  args.state.backgroundX ||= 0
+  args.state.backgroundX ||= -10
   args.state.backgroundY ||= 0
   args.state.groundX ||= 0
   args.state.groundStartPosX ||= 0
