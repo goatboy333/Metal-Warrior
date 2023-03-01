@@ -1,7 +1,61 @@
-# * EXCEPTION:
-# Undefined method direction= was invoked on nil.
+# * REQUIRE EXCEPTION: ~require~ order might not be valid.
+# An uninitialized constant exception was thrown while ~require~ statements were being
+# processed. DragonRuby's ~require~ method is asynchronous. Which means that a class cannot
+# be used within the same file in which it is required.
+# 
+# If you are using requires, it's recommended that =app/main.rb= only contains require statements
+# and that you should create a file called =app/tick.rb= that is ~require~d last.
+# 
+# Here is a sample structure:
+# 
+# Let's assume the follow directory hierarchy.
+# 
+# #+begin_src
+# + mygame/
+# + app/
+# + enemy.rb
+# + game.rb
+# + main.rb
+# + player.rb
+# #+end_src
+# 
+# This is what =app/main.rb= would look like.
+# 
+# #+begin_src ruby
+# #####################
+# # main.rb
+# #####################
+# # 1. app/main.rb should only contain ~require~ statements.
+# # 2. The paths should be fully qualified relative your mygame directory.
+# # 3. Files should be ordered based on dependencies.
+# require 'app/enemy.rb'  # Game relies on Enemy.
+# require 'app/player.rb' # Game relies on Player.
+# require 'app/game.rb'   # Game definition.
+# require 'app/tick.rb'   # =app/tick.rb= which contains the ~tick~ method.
+# #+end_src
+# 
+# This is what =app/tick.rb= would look like.
+# 
+# #+begin_src ruby
+# #####################
+# # tick.rb
+# #####################
+# # Given that =app/tick.rb= is the last ~require~ statement in =app/main.rb=, all classes should
+# # be available.
+# $game = Game.new(Player.new, Enemy.new)
+# 
+# def tick args
+# $game.tick
+# end
+# #+end_src
+# 
+# * EXCEPTION: uninitialized constant Bird
+# ** NOTE: See explanation above for a possible fix to this error.
+# The full text for this exception is located in =./exceptions/current.txt= and =./logs/log.txt= if you
+# do not want to read it within the Console.
 # ** Backtrace:
-# *** app/main.rb:2:in tick
+# *** app/main.rb:201:in initialize_game
+# *** app/main.rb:3:in tick
 
 Game State:
-{:state=>{:entity_id=>3, :tick_count=>0, :__thrash_count__=>{:direction=>1}, :x=>576, :y=>50, :screenWidth=>1280, :player=>{:entity_id=>1, :entity_name=>:player, :entity_keys_by_ref=>{}, :__thrash_count__=>{:direction==>1}, :direction=>1}}, :temp_state=>{}, :inputs=>{:controller_one=>{:key_down=>{}, :key_held=>{}, :key_up=>{}}, :controller_two=>{:key_down=>{}, :key_held=>{}, :key_up=>{}}, :keyboard=>{:key_up=>{:truthy_keys=>[]}, :key_held=>{:truthy_keys=>[]}, :key_down=>{:truthy_keys=>[]}, :has_focus=>true}, :mouse=>{:x=>5.0, :y=>397.0, :moved=>nil, :moved_at=>-1, :has_focus=>true}, :text=>[]}, :passes=>[], :outputs=>{:solids=>[[0, 0, 1280, 720, 0, 0, 255, 180]], :sprites=>[[0, 0, 69, 64, "tile1.png"], [69, 0, 69, 64, "tile1.png"], [138, 0, 69, 64, "tile1.png"], [207, 0, 69, 64, "tile1.png"], [276, 0, 69, 64, "tile1.png"], [345, 0, 69, 64, "tile1.png"], [414, 0, 69, 64, "tile1.png"], [483, 0, 69, 64, "tile1.png"], [552, 0, 69, 64, "tile1.png"], [621, 0, 69, 64, "tile1.png"], [690, 0, 69, 64, "tile1.png"], [759, 0, 69, 64, "tile1.png"], [828, 0, 69, 64, "tile1.png"], [897, 0, 69, 64, "tile1.png"], [966, 0, 69, 64, "tile1.png"], [1035, 0, 69, 64, "tile1.png"], [1104, 0, 69, 64, "tile1.png"], [1173, 0, 69, 64, "tile1.png"], [1242, 0, 69, 64, "tile1.png"]], :lines=>[], :labels=>[{:x=>640, :y=>500, :text=>"Metal Warrior", :size_enum=>33, :alignment_enum=>1, :r=>0, :g=>0, :b=>50, :a=>255, :font=>"fibberish.ttf"}, {:x=>640, :y=>500, :text=>"Metal Warrior", :size_enum=>30, :alignment_enum=>1, :r=>255, :g=>0, :b=>50, :a=>255, :font=>"fibberish.ttf"}], :sounds=>[], :borders=>[], :primitives=>[], :static_solids=>[], :static_borders=>[], :static_sprites=>[], :static_lines=>[], :static_labels=>[], :static_primitives=>[]}, :grid=>{:runtime=>{:argv=>"./dragonruby", :platform=>"Linux", :required_files=>[], :reload_list_history=>{"app/main.rb"=>{:current=>{:path=>"app/main.rb", :global_at=>-1, :event=>:reload_completed}, :history=>[{:path=>"app/main.rb", :global_at=>-1, :event=>:reload_queued}, {:path=>"app/main.rb", :global_at=>-1, :event=>:processing}, {:path=>"app/main.rb", :global_at=>-1, :event=>:reload_completed}]}}}, :ffi_draw=>"", :name=>:bottom_left, :origin_x=>0.0, :origin_y=>720, :left=>0.0, :right=>1280, :top=>720, :bottom=>0.0, :left_margin=>0.0, :bottom_margin=>0.0, :center_x=>640.0, :center_y=>360.0, :rect=>[0.0, 0.0, 1280, 720], :center=>[640.0, 360.0]}}
+{:state=>{:entity_id=>3, :tick_count=>0, :__thrash_count__=>{:direction=>1}, :x=>250, :y=>50, :screenWidth=>1280, :player=>{:entity_id=>1, :entity_name=>:player, :entity_keys_by_ref=>{}, :__thrash_count__=>{:direction==>1}, :direction=>-1}, :trigger_sample=>0, :backgroundX=>-10, :backgroundY=>0, :groundX=>0, :groundStartPosX=>0}, :temp_state=>{}, :inputs=>{:controller_one=>{:key_down=>{}, :key_held=>{}, :key_up=>{}}, :controller_two=>{:key_down=>{}, :key_held=>{}, :key_up=>{}}, :keyboard=>{:key_up=>{:truthy_keys=>[]}, :key_held=>{:truthy_keys=>[]}, :key_down=>{:truthy_keys=>[]}, :has_focus=>true}, :mouse=>{:x=>305.0, :y=>307.0, :moved=>nil, :moved_at=>-1, :has_focus=>true}, :text=>[]}, :passes=>[], :outputs=>{:solids=>[], :sprites=>[], :lines=>[], :labels=>[], :sounds=>[], :borders=>[], :primitives=>[], :static_solids=>[], :static_borders=>[], :static_sprites=>[], :static_lines=>[], :static_labels=>[], :static_primitives=>[]}, :grid=>{:runtime=>{:argv=>"./dragonruby", :platform=>"Linux", :required_files=>["app/bird.rb"], :reload_list_history=>{"app/main.rb"=>{:current=>{:path=>"app/main.rb", :global_at=>-1, :event=>:reload_completed}, :history=>[{:path=>"app/main.rb", :global_at=>-1, :event=>:reload_queued}, {:path=>"app/main.rb", :global_at=>-1, :event=>:processing}, {:path=>"app/main.rb", :global_at=>-1, :event=>:reload_completed}]}, "app/bird.rb"=>{:current=>{:path=>"app/bird.rb", :global_at=>0, :event=>:reload_queued}, :history=>[{:path=>"app/bird.rb", :global_at=>0, :event=>:reload_queued}]}}}, :ffi_draw=>"", :name=>:bottom_left, :origin_x=>0.0, :origin_y=>720, :left=>0.0, :right=>1280, :top=>720, :bottom=>0.0, :left_margin=>0.0, :bottom_margin=>0.0, :center_x=>640.0, :center_y=>360.0, :rect=>[0.0, 0.0, 1280, 720], :center=>[640.0, 360.0]}}
