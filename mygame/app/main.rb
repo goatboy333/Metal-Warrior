@@ -110,13 +110,10 @@ def debug args
     }
 
     if args.inputs.right and args.state.x >= 850
-        args.state.x = 850
-        args.state.player.direction = -1
-        args.state.backgroundX -= 1
-        args.state.groundStartPosX -= 5
-        if args.state.groundStartPosX <= -1315
-          args.state.groundStartPosX = -1310
-        end
+      args.state.x = 850
+      args.state.player.direction = -1
+      args.state.backgroundX -= 1
+      args.state.groundStartPosX -= 5 if args.state.groundStartPosX > -1310
       hash_sprites[:source_x] = 60 * sprite_index
     elsif args.inputs.right and args.state.x < 850
       
@@ -129,27 +126,18 @@ def debug args
       args.state.x = 100
       args.state.player.direction = 1
       args.state.backgroundX += 1
-      args.state.groundStartPosX += 5
-      if args.state.groundStartPosX >= 5
-        args.state.groundStartPosX = 0
-      end
+      args.state.groundStartPosX += 5 if args.state.groundStartPosX < 0
       hash_sprites[:source_x] = 60 * sprite_index
 
     elsif args.inputs.left and args.state.x > 100
       args.state.x -= 10
       args.state.player.direction = 1
       hash_sprites[:source_x] = 60 * sprite_index
-      args.state.trigger_sample = 1 
-    #elsif args.inputs.keyboard.space
-    #  args.outputs.sounds << 'sounds/gun.wav'
-
+     
     end
     
     args.outputs.sprites << hash_sprites
-    if args.state.trigger_sample == 1
-      # args.outputs.sounds << 'sounds/gun.wav'
-      args.state.trigger_sample = 0
-    end
+    
 
   end
 
