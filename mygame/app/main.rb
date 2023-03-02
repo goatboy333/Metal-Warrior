@@ -60,7 +60,7 @@ def debug args
       args.state.backgroundX = -271
     end
       
-    args.outputs.sprites << [args.state.backgroundX, 0, 2560, 720, 'sprites/middle768272.png']   
+    args.outputs.sprites << [args.state.backgroundX, 0, 2560, 720, 'sprites/middleground/middle768272.png']   
     
   end
 
@@ -82,7 +82,7 @@ def debug args
     end
 
         (args.state.screenWidth * 2 / 69).times do    
-        args.outputs.sprites << [args.state.groundX, 0, 69, 64, 'tile1.png']
+        args.outputs.sprites << [args.state.groundX, 0, 69, 64, 'sprites/foreground/tile1.png']
         args.state.groundX += 69
     end 
   end
@@ -101,7 +101,7 @@ def debug args
       y: args.state.y, 
       w: 50 * 3.5, 
       h: 32 * 3.5, 
-      path: 'wolf.png',
+      path: 'sprites/enemies/wolf.png',
       source_x: 60,
       source_y: 0,
       source_w: 50,
