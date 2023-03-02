@@ -50,15 +50,6 @@ def debug args
     # checks boundaries and render mid background 
     
     args.outputs.background_color = [50, 0, 255]
-    
-    
-    if args.state.backgroundX >= -10 and args.state.x <=100
-      args.state.backgroundX = -10 
-    end
-
-    if args.state.backgroundX <= -271 and args.state.x <= 850
-      args.state.backgroundX = -271
-    end
       
     args.outputs.sprites << [args.state.backgroundX, 0, 2560, 720, 'sprites/middleground/middle768272.png']   
     
@@ -70,16 +61,6 @@ def debug args
     # check boundaries and renders ground
     
     args.state.groundX =  args.state.groundStartPosX
-
-    if args.state.groundStartPosX >= 0 and args.state.x <= 100
-      
-      args.state.groundX and args.state.groundStartPosX = 0
-    end
-
-    if args.state.groundStartPosX <= -1310 and args.state.x <= 850
-      
-      args.state.groundX and args.state.groundStartPosX = -1310
-    end
 
         (args.state.screenWidth * 2 / 69).times do    
         args.outputs.sprites << [args.state.groundX, 0, 69, 64, 'sprites/foreground/tile1.png']
@@ -112,9 +93,14 @@ def debug args
     if args.inputs.right and args.state.x >= 850
       args.state.x = 850
       args.state.player.direction = -1
-      args.state.backgroundX -= 1
-      args.state.groundStartPosX -= 5 if args.state.groundStartPosX > -1310
+    
+      if args.state.groundStartPosX > -1310
+        args.state.backgroundX -= 1 
+        args.state.groundStartPosX -= 5 
+      end
+
       hash_sprites[:source_x] = 60 * sprite_index
+
     elsif args.inputs.right and args.state.x < 850
       
       args.state.x += 10
@@ -125,8 +111,12 @@ def debug args
     if args.inputs.left and args.state.x <= 100
       args.state.x = 100
       args.state.player.direction = 1
-      args.state.backgroundX += 1
-      args.state.groundStartPosX += 5 if args.state.groundStartPosX < 0
+
+      if args.state.groundStartPosX < 0
+        args.state.backgroundX += 1
+        args.state.groundStartPosX += 5 
+      end
+
       hash_sprites[:source_x] = 60 * sprite_index
 
     elsif args.inputs.left and args.state.x > 100
