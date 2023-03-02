@@ -90,6 +90,8 @@ def debug args
       flip_horizontally: args.state.player.direction > 0,
     }
 
+    move = true
+
     if args.inputs.right and args.state.x >= 850
       args.state.x = 850
       args.state.player.direction = -1
@@ -98,17 +100,13 @@ def debug args
         args.state.backgroundX -= 1 
         args.state.groundStartPosX -= 5 
       end
-
-      hash_sprites[:source_x] = 60 * sprite_index
-
+      
     elsif args.inputs.right and args.state.x < 850
       
       args.state.x += 10
       args.state.player.direction = -1
-      hash_sprites[:source_x] = 60 * sprite_index
-    end
 
-    if args.inputs.left and args.state.x <= 100
+    elsif args.inputs.left and args.state.x <= 100
       args.state.x = 100
       args.state.player.direction = 1
 
@@ -117,15 +115,15 @@ def debug args
         args.state.groundStartPosX += 5 
       end
 
-      hash_sprites[:source_x] = 60 * sprite_index
-
     elsif args.inputs.left and args.state.x > 100
       args.state.x -= 10
-      args.state.player.direction = 1
-      hash_sprites[:source_x] = 60 * sprite_index
-     
+      args.state.player.direction = 1  
+    else
+      move = false
     end
     
+    hash_sprites[:source_x] = 60 * sprite_index if move
+
     args.outputs.sprites << hash_sprites
     
 
