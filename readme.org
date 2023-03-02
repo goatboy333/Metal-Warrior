@@ -1,0 +1,3 @@
+* Readme
+
+Metal Warrior is a side scroller adventure game in which you start of as a villager and then your aim is to become a metal god!
