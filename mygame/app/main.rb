@@ -17,7 +17,7 @@ def debug args
   args.outputs.labels << {
     x:                       640,
     y:                       300,
-    text:                    args.state.x,
+    text:                    args.state.player.x,
     size_enum:               33,
     alignment_enum:          1,
     r:                       0,
@@ -58,8 +58,8 @@ def foreground args
 end
 
 def move_right(args)
-  if args.state.x >= 850
-    args.state.x = 850
+  if args.state.player.x >= 850
+    args.state.player.x = 850
     args.state.player.direction = -1
 
     if args.state.groundStartPosX > -1310
@@ -67,14 +67,14 @@ def move_right(args)
       args.state.groundStartPosX -= 5
     end
   else
-    args.state.x += 10
+    args.state.player.x += args.state.player.speed
     args.state.player.direction = -1
   end
 end
 
 def move_left(args)
-  if args.state.x <= 100
-    args.state.x = 100
+  if args.state.player.x <= 100
+    args.state.player.x = 100
     args.state.player.direction = 1
 
     if args.state.groundStartPosX < 0
@@ -82,7 +82,7 @@ def move_left(args)
       args.state.groundStartPosX += 5
     end
   else
-    args.state.x -= 10
+    args.state.player.x -= args.state.player.speed
     args.state.player.direction = 1
   end
 end
@@ -95,8 +95,8 @@ def move(args)
     repeat: true  # should it repeat?
 
   hash_sprites = {
-    x: args.state.x,
-    y: args.state.y,
+    x: args.state.player.x,
+    y: args.state.player.y,
     w: 50 * 3.5,
     h: 32 * 3.5,
     path: 'sprites/enemies/wolf.png',
@@ -117,16 +117,31 @@ def move(args)
     move = false
   end
 
+  if args.inputs.up and args.state.player.y == args.state.player.base
+    args.state.player.jump = true
+  end
+
+  if args.state.player.y > args.state.player.base and args.state.player.jump == false
+    args.state.player.y -= args.state.player.speed
+  elsif args.state.player.y > 250
+    args.state.player.jump = false
+  elsif args.state.player.jump
+    args.state.player.y += args.state.player.speed
+  end
+
   hash_sprites[:source_x] = 60 * sprite_index if move
 
   args.outputs.sprites << hash_sprites
 end
 
 def initialize_game(args)
-  args.state.x ||= 250
-  args.state.y ||= 50
-  args.state.screenWidth ||= 1280
+  args.state.player.x ||= 250
+  args.state.player.y ||= 50
+  args.state.player.jump ||= false
+  args.state.player.base ||= 50
+  args.state.player.speed = 10
   args.state.player.direction ||= -1
+  args.state.screenWidth ||= 1280
   args.state.trigger_sample ||= 0
   args.state.backgroundX ||= -10
   args.state.backgroundY ||= 0
