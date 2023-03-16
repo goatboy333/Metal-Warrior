@@ -6,6 +6,15 @@ def tick(args)
   foreground args
   #musicBackground args
   move args
+
+
+  args.state.fireballs ||= []
+  if args.inputs.keyboard.key_down.z
+    args.state.fireballs << [args.state.player.x,args.state.player.y,"fireball"]
+  end
+  args.state.fireballs.each do |fireball|
+    args.outputs.labels << fireball
+  end
 end
 
 def musicBackground args
