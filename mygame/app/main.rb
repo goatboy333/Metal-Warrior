@@ -58,10 +58,10 @@ def foreground args
 end
 
 def move_right(args)
-  if args.state.player.x >= 850 and args.state.groundStartPosX > -1310
+  if args.state.player.x >= (args.grid.w - 300) and args.state.groundStartPosX > -1310
     args.state.backgroundX -= 1
     args.state.groundStartPosX -= 5
-  elsif args.state.player.x < 850
+  elsif args.state.player.x < (args.grid.w - 300)
     args.state.player.x += args.state.player.speed
     args.state.player.direction = -1
   end
