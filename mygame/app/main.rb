@@ -57,6 +57,36 @@ def foreground args
   end
 end
 
+def move_right(args)
+  if args.state.x >= 850
+    args.state.x = 850
+    args.state.player.direction = -1
+
+    if args.state.groundStartPosX > -1310
+      args.state.backgroundX -= 1
+      args.state.groundStartPosX -= 5
+    end
+  else
+    args.state.x += 10
+    args.state.player.direction = -1
+  end
+end
+
+def move_left(args)
+  if args.state.x <= 100
+    args.state.x = 100
+    args.state.player.direction = 1
+
+    if args.state.groundStartPosX < 0
+      args.state.backgroundX += 1
+      args.state.groundStartPosX += 5
+    end
+  else
+    args.state.x -= 10
+    args.state.player.direction = 1
+  end
+end
+
 def move(args)
   start_animation_on_tick = 0
 
@@ -79,32 +109,10 @@ def move(args)
 
   move = true
 
-  if args.inputs.right and args.state.x >= 850
-    args.state.x = 850
-    args.state.player.direction = -1
-
-    if args.state.groundStartPosX > -1310
-      args.state.backgroundX -= 1
-      args.state.groundStartPosX -= 5
-    end
-
-  elsif args.inputs.right and args.state.x < 850
-
-    args.state.x += 10
-    args.state.player.direction = -1
-
-  elsif args.inputs.left and args.state.x <= 100
-    args.state.x = 100
-    args.state.player.direction = 1
-
-    if args.state.groundStartPosX < 0
-      args.state.backgroundX += 1
-      args.state.groundStartPosX += 5
-    end
-
-  elsif args.inputs.left and args.state.x > 100
-    args.state.x -= 10
-    args.state.player.direction = 1
+  if args.inputs.right
+    move_right(args)
+  elsif args.inputs.left
+    move_left(args)
   else
     move = false
   end
