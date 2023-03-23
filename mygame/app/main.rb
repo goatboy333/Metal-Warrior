@@ -7,7 +7,9 @@ def tick(args)
   foreground args
   #musicBackground args
   move args
+  check_spacebar_spear(args)
   weapon_spear(args)
+  #weapon_spear(args)
 
   args.gtk.hide_cursor
 
@@ -172,17 +174,39 @@ def move(args)
   args.outputs.sprites << hash_sprites
 end
 
+def check_spacebar_spear(args)
+  if args.inputs.keyboard.control
+    args.state.spear.active = true
+    args.state.spear.y = args.state.player.y + 55
+    args.state.spear.direction = args.state.player.direction 
+    if args.state.player.direction > 0
+      args.state.spear.x = args.state.player.x + 80
+  
+    elsif args.state.player.direction < 0
+      args.state.spear.x = args.state.player.x - 10
+  
+    end
+  end
+
+end
+
 def weapon_spear(args)
+  
 
   spear_sprite = {
-    x: args.state.player.x + 80,
-    y: args.state.player.y + 55,
+    x: args.state.spear.x, # = args.state.player.x+ 80,
+    y: args.state.spear.y, # = args.state.player.y + 55,
     w: 100 * 1.5,
     h: 27,
     path: 'sprites/weapons/spear.png',
    
     flip_horizontally: args.state.player.direction > 0,
   }
+
+  if args.state.spear.active
+    args.state.spear.x -= 10 * args.state.spear.direction
+    
+  end
 
   args.outputs.sprites << spear_sprite
 
@@ -195,6 +219,10 @@ def initialize_game(args)
   args.state.player.base ||= 50
   args.state.player.speed = 10
   args.state.player.direction ||= -1
+  args.state.spear.x  ||= args.state.player.x
+  args.state.spear.y ||= args.state.player.y
+  args.state.spear.active ||= false
+  args.state.spear.direction ||= -1
   args.state.screenWidth ||= 1280
   args.state.trigger_sample ||= 0
   args.state.backgroundX ||= -10
