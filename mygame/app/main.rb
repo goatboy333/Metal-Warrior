@@ -7,6 +7,7 @@ def tick(args)
   #musicBackground args
   move args
 
+  args.gtk.hide_cursor
 
   args.state.fireballs ||= []
   if args.inputs.keyboard.key_down.z
