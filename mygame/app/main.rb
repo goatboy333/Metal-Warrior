@@ -7,7 +7,8 @@ def tick(args)
   foreground args
   #musicBackground args
   move args
-  eniemies args
+
+  enemies_move args
 
   args.gtk.hide_cursor
 
@@ -157,42 +158,52 @@ def move(args)
   args.outputs.sprites << hash_sprites
 end
 
-def eniemies(args)
-  start_animation_on_tick = 0
+def enemies_move(args)
 
-  hash_sprites2 = {
-    x: args.state.enemy.x,
-    y: args.state.enemy.y,
-    w: 50 * 3.5,
-    h: 32 * 3.5,
-    path: 'sprites/enemies/wolf.png',
-    source_x: 60,
-    source_y: 0,
-    source_w: 50,
-    source_h: 32,
-    flip_horizontally: args.state.enemy.direction > 0,
-  }
+  if args.tick_count % 160 == 0
+    args.state.enemies_count += 1
+    puts args.state.enemies_count
 
-  if args.state.enemy.x < args.state.player.x + 140 and args.state.enemy.x > args.state.player.x - 120
-
-  elsif args.state.enemy.x > args.state.player.x + 100
-    args.state.enemy.x -= 1
-    args.state.enemy.direction = 1
-
-  elsif args.state.enemy.x < args.state.screenWidth
-    args.state.enemy.x += 1
-    args.state.enemy.direction = -1
-  else
-
+    args.state.enemies << {x: 1200, y: 50, direction: 1} unless args.state.enemies_count > 2
   end
 
-  sprite_index = start_animation_on_tick.frame_index count: 4, 	# how many
-    hold_for: 5,  # how long
-    repeat: true  # should it repeat?
+  start_animation_on_tick = 0
 
-  hash_sprites2[:source_x] = 60 * sprite_index
+  args.state.enemies.each do |enemy|
+    hash_sprites = {
+      x: enemy[:x],
+      y: enemy[:y],
+      w: 50 * 3.5,
+      h: 32 * 3.5,
+      path: 'sprites/enemies/wolf.png',
+      source_x: 60,
+      source_y: 0,
+      source_w: 50,
+      source_h: 32,
+      flip_horizontally: enemy[:direction] > 0,
+    }
 
-  args.outputs.sprites << hash_sprites2
+    if enemy[:x] < args.state.player.x + 140 and enemy[:x] > args.state.player.x - 120
+
+    elsif enemy[:x] > args.state.player.x + 100
+      enemy[:x] -= 1
+      enemy[:direction] = 1
+
+    elsif enemy[:x] < args.state.screenWidth
+      enemy[:x] += 1
+      enemy[:direction] = -1
+    else
+
+    end
+
+    sprite_index = start_animation_on_tick.frame_index count: 4, 	# how many
+      hold_for: 5,  # how long
+      repeat: true  # should it repeat?
+
+    hash_sprites[:source_x] = 60 * sprite_index
+
+    args.outputs.sprites << hash_sprites
+  end
 
 end
 
@@ -204,9 +215,7 @@ def initialize_game(args)
   args.state.player.speed = 10
   args.state.player.direction ||= -1
 
-  args.state.enemy.x ||= 1200
-  args.state.enemy.y ||= 50
-  args.state.enemy.direction ||= 1
+  args.state.enemies ||= [{x: 1200, y: 50, direction: 1}]
 
   args.state.screenWidth ||= 1280
   args.state.trigger_sample ||= 0
