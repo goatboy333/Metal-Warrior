@@ -104,7 +104,6 @@ end
 def move(args)
   start_animation_on_tick = 0
 
-
   hash_sprites = {
     x: args.state.player.x,
     y: args.state.player.y,
@@ -117,7 +116,6 @@ def move(args)
     source_h: 74,
     flip_horizontally: args.state.player.direction > 0,
   }
-
 
   move = true
 
@@ -162,7 +160,7 @@ end
 def eniemies(args)
   start_animation_on_tick = 0
 
-  hash_sprites = {
+  hash_sprites2 = {
     x: args.state.enemy.x,
     y: args.state.enemy.y,
     w: 50 * 3.5,
@@ -175,11 +173,15 @@ def eniemies(args)
     flip_horizontally: args.state.enemy.direction > 0,
   }
 
+  args.state.enemy.x -= 1
+
   sprite_index = start_animation_on_tick.frame_index count: 4, 	# how many
     hold_for: 5,  # how long
     repeat: true  # should it repeat?
 
-  args.outputs.sprites << hash_sprites
+  hash_sprites2[:source_x] = 60 * sprite_index
+
+  args.outputs.sprites << hash_sprites2
 
 end
 
@@ -191,7 +193,7 @@ def initialize_game(args)
   args.state.player.speed = 10
   args.state.player.direction ||= -1
 
-  args.state.enemy.x = 1260
+  args.state.enemy.x ||= 1200
   args.state.enemy.y ||= 50
   args.state.enemy.direction ||= 1
 
