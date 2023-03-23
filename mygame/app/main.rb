@@ -90,22 +90,33 @@ end
 def move(args)
   start_animation_on_tick = 0
 
-  sprite_index = start_animation_on_tick.frame_index count: 4, 	# how many
-    hold_for: 5,  # how long
-    repeat: true  # should it repeat?
 
   hash_sprites = {
     x: args.state.player.x,
     y: args.state.player.y,
-    w: 50 * 3.5,
-    h: 32 * 3.5,
-    path: 'sprites/enemies/wolf.png',
-    source_x: 60,
+    w: 100 * 2.5,
+    h: 74 * 2.5,
+    path: 'sprites/villager/Run/villager_run.png',
+    source_x: 100,
     source_y: 0,
-    source_w: 50,
-    source_h: 32,
+    source_w: 100,
+    source_h: 74,
     flip_horizontally: args.state.player.direction > 0,
   }
+
+
+  # hash_sprites = {
+  #   x: args.state.player.x,
+  #   y: args.state.player.y,
+  #   w: 50 * 3.5,
+  #   h: 32 * 3.5,
+  #   path: 'sprites/enemies/wolf.png',
+  #   source_x: 60,
+  #   source_y: 0,
+  #   source_w: 50,
+  #   source_h: 32,
+  #   flip_horizontally: args.state.player.direction > 0,
+  # }
 
   move = true
 
@@ -123,13 +134,26 @@ def move(args)
 
   if args.state.player.y > args.state.player.base and args.state.player.jump == false
     args.state.player.y -= args.state.player.speed
+
   elsif args.state.player.y > 250
     args.state.player.jump = false
+
   elsif args.state.player.jump
+    hash_sprites[:path] = 'sprites/villager/Jump/villager_jump.png'
     args.state.player.y += args.state.player.speed
   end
 
-  hash_sprites[:source_x] = 60 * sprite_index if move
+  if move
+    sprite_index = start_animation_on_tick.frame_index count: 6, 	# how many
+      hold_for: 5,  # how long
+      repeat: true  # should it repeat?
+  else
+    sprite_index = start_animation_on_tick.frame_index count: 5, 	# how many
+      hold_for: 10,  # how long
+      repeat: true  # should it repeat?
+  end
+
+  hash_sprites[:source_x] = 100 * sprite_index if move
 
   args.outputs.sprites << hash_sprites
 end
