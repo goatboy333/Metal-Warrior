@@ -7,6 +7,7 @@ def tick(args)
   foreground args
   #musicBackground args
   move args
+  weapon_spear(args)
 
   args.gtk.hide_cursor
 
@@ -169,6 +170,22 @@ def move(args)
   hash_sprites[:source_x] = 100 * sprite_index if move
 
   args.outputs.sprites << hash_sprites
+end
+
+def weapon_spear(args)
+
+  spear_sprite = {
+    x: args.state.player.x + 80,
+    y: args.state.player.y + 55,
+    w: 100 * 1.5,
+    h: 27,
+    path: 'sprites/weapons/spear.png',
+   
+    flip_horizontally: args.state.player.direction > 0,
+  }
+
+  args.outputs.sprites << spear_sprite
+
 end
 
 def initialize_game(args)
