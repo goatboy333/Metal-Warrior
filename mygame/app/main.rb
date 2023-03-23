@@ -173,7 +173,15 @@ def eniemies(args)
     flip_horizontally: args.state.enemy.direction > 0,
   }
 
-  args.state.enemy.x -= 1
+  if args.state.enemy.x > args.state.player.x
+    args.state.enemy.x -= 4
+    args.state.enemy.direction = 1
+  elsif args.state.enemy.x < args.state.screenWidth
+    args.state.enemy.x += 4
+    args.state.enemy.direction = -1
+  else
+
+  end
 
   sprite_index = start_animation_on_tick.frame_index count: 4, 	# how many
     hold_for: 5,  # how long
