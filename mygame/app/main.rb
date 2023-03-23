@@ -173,11 +173,14 @@ def eniemies(args)
     flip_horizontally: args.state.enemy.direction > 0,
   }
 
-  if args.state.enemy.x > args.state.player.x
-    args.state.enemy.x -= 4
+  if args.state.enemy.x < args.state.player.x + 140 and args.state.enemy.x > args.state.player.x - 120
+
+  elsif args.state.enemy.x > args.state.player.x + 100
+    args.state.enemy.x -= 1
     args.state.enemy.direction = 1
+
   elsif args.state.enemy.x < args.state.screenWidth
-    args.state.enemy.x += 4
+    args.state.enemy.x += 1
     args.state.enemy.direction = -1
   else
 
