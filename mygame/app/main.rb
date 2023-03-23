@@ -7,6 +7,7 @@ def tick(args)
   foreground args
   #musicBackground args
   move args
+  eniemies args
 
   args.gtk.hide_cursor
 
@@ -53,16 +54,16 @@ def debug args
 end
 
 def background(args)
-  # checks boundaries and render background 
+  # checks boundaries and render background
   background_paste ||= 0
 
   args.outputs.background_color = [50, 0, 255]
-  
+
   4.times do
-  args.outputs.sprites << [background_paste, 0, 320, 720, 'sprites/background/back.png']   
+  args.outputs.sprites << [background_paste, 0, 320, 720, 'sprites/background/back.png']
   background_paste += 320
   end
-end 
+end
 
 def middleground(args)
   # checks boundaries and render mid background
@@ -118,19 +119,6 @@ def move(args)
   }
 
 
-  # hash_sprites = {
-  #   x: args.state.player.x,
-  #   y: args.state.player.y,
-  #   w: 50 * 3.5,
-  #   h: 32 * 3.5,
-  #   path: 'sprites/enemies/wolf.png',
-  #   source_x: 60,
-  #   source_y: 0,
-  #   source_w: 50,
-  #   source_h: 32,
-  #   flip_horizontally: args.state.player.direction > 0,
-  # }
-
   move = true
 
   if args.inputs.right
@@ -171,6 +159,30 @@ def move(args)
   args.outputs.sprites << hash_sprites
 end
 
+def eniemies(args)
+  start_animation_on_tick = 0
+
+  hash_sprites = {
+    x: args.state.enemy.x,
+    y: args.state.enemy.y,
+    w: 50 * 3.5,
+    h: 32 * 3.5,
+    path: 'sprites/enemies/wolf.png',
+    source_x: 60,
+    source_y: 0,
+    source_w: 50,
+    source_h: 32,
+    flip_horizontally: args.state.enemy.direction > 0,
+  }
+
+  sprite_index = start_animation_on_tick.frame_index count: 4, 	# how many
+    hold_for: 5,  # how long
+    repeat: true  # should it repeat?
+
+  args.outputs.sprites << hash_sprites
+
+end
+
 def initialize_game(args)
   args.state.player.x ||= 250
   args.state.player.y ||= 50
@@ -178,6 +190,11 @@ def initialize_game(args)
   args.state.player.base ||= 50
   args.state.player.speed = 10
   args.state.player.direction ||= -1
+
+  args.state.enemy.x = 1260
+  args.state.enemy.y ||= 50
+  args.state.enemy.direction ||= 1
+
   args.state.screenWidth ||= 1280
   args.state.trigger_sample ||= 0
   args.state.backgroundX ||= -10
