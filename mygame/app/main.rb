@@ -1,11 +1,13 @@
 require 'app/debug.rb'
 require 'app/backgrounds.rb'
 require 'app/creature.rb'
+require 'app/rat.rb'
+require 'app/eagle.rb'
 
 
 def tick(args)
   initialize_game args
-  debug args
+  #debug args
   background args
   middleground(args)
   foreground args
@@ -13,6 +15,7 @@ def tick(args)
   move args
   check_spacebar_spear(args)
   weapon_spear(args)
+  
   #weapon_spear(args)
 
   enemies_move args
@@ -26,6 +29,12 @@ def tick(args)
   args.state.fireballs.each do |fireball|
     args.outputs.labels << fireball
   end
+
+  rat ||= Rat.new(args)
+  rat.animate(args)
+  #rat.stats(args)
+  eagle ||= Eagle.new(args)
+  eagle.animate(args)
 end
 
 def musicBackground args
@@ -113,7 +122,7 @@ def enemies_move(args)
 
   if args.tick_count % 160 == 0
     args.state.enemies_count += 1
-    puts args.state.enemies_count
+    #puts args.state.enemies_count
 
     args.state.enemies << {x: 1200, y: 50, direction: 1} unless args.state.enemies_count > 2
   end
