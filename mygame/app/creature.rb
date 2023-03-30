@@ -12,10 +12,8 @@ class Creature
         @count = 4
         @hold_for = 5
         @width = 71
-    end
 
-    def creature_hash
-
+        @create_hash = {}
     end
 
     def take_damage(value)
@@ -25,10 +23,20 @@ class Creature
         end
     end
 
-    def move()
+    def follow_the_player(args)
+        if @creature_hash[:x] < args.state.player.x + 140 and @creature_hash[:x] > args.state.player.x - 120
 
+        elsif @creature_hash[:x] > args.state.player.x + @speed00
+            @creature_hash[:x] -= @speed
+            @creature_hash[:flip_horizontally] = false
+
+        elsif @creature_hash[:x] < args.state.screenWidth
+            @creature_hash[:x] += @speed
+            @creature_hash[:flip_horizontally] = true
+        else
+
+        end
     end
-
 
     def animate(args)
         start_animation_on_tick = 0
@@ -37,8 +45,10 @@ class Creature
             @hold_for,  # how long
             repeat: true  # should it repeat?
         
+        follow_the_player(args)
         @creature_hash[:source_x] = @width * sprite_index #if @move
 
+ 
         args.outputs.sprites << @creature_hash
     end
 

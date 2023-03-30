@@ -30,11 +30,11 @@ def tick(args)
     args.outputs.labels << fireball
   end
 
-  rat ||= Rat.new(args)
-  rat.animate(args)
+  @rat.animate(args)
   #rat.stats(args)
-  eagle ||= Eagle.new(args)
-  eagle.animate(args)
+
+  
+  @eagle.animate(args)
 end
 
 def musicBackground args
@@ -120,6 +120,7 @@ end
 
 def enemies_move(args)
 
+  # Adds more wolves
   if args.tick_count % 160 == 0
     args.state.enemies_count += 1
     #puts args.state.enemies_count
@@ -143,6 +144,7 @@ def enemies_move(args)
       flip_horizontally: enemy[:direction] > 0,
     }
 
+    # Follow the player
     if enemy[:x] < args.state.player.x + 140 and enemy[:x] > args.state.player.x - 120
 
     elsif enemy[:x] > args.state.player.x + 100
@@ -221,4 +223,6 @@ def initialize_game(args)
   args.state.backgroundY ||= 0
   args.state.groundX ||= 0
   args.state.groundStartPosX ||= 0
+  @rat ||= Rat.new(args)
+  @eagle ||= Eagle.new(args)
 end
