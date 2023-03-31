@@ -3,6 +3,7 @@ require 'app/backgrounds.rb'
 require 'app/creature.rb'
 require 'app/rat.rb'
 require 'app/eagle.rb'
+require 'app/bear.rb'
 
 
 def tick(args)
@@ -33,7 +34,7 @@ def tick(args)
   @rat.animate(args)
   #rat.stats(args)
 
-  
+  @bear.animate(args)
   @eagle.animate(args)
 end
 
@@ -225,4 +226,5 @@ def initialize_game(args)
   args.state.groundStartPosX ||= 0
   @rat ||= Rat.new(args)
   @eagle ||= Eagle.new(args)
+  @bear ||= Bear.new(args)
 end
