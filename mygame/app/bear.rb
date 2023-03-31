@@ -4,8 +4,8 @@ class Bear < Creature
         super
         @x = 100
         @y = 50
-        @health = 10
-        @damage = 3
+        @health = 40
+        @damage = 20
         @speed = 3
         @move = true
         @count = 3

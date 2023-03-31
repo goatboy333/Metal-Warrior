@@ -4,6 +4,7 @@ require 'app/creature.rb'
 require 'app/rat.rb'
 require 'app/eagle.rb'
 require 'app/bear.rb'
+require 'app/wolf.rb'
 
 
 def tick(args)
@@ -19,7 +20,7 @@ def tick(args)
   
   #weapon_spear(args)
 
-  enemies_move args
+  #enemies_move args
 
   args.gtk.hide_cursor
 
@@ -33,7 +34,7 @@ def tick(args)
 
   @rat.animate(args)
   #rat.stats(args)
-
+  @wolf.animate(args)
   @bear.animate(args)
   @eagle.animate(args)
 end
@@ -227,4 +228,5 @@ def initialize_game(args)
   @rat ||= Rat.new(args)
   @eagle ||= Eagle.new(args)
   @bear ||= Bear.new(args)
+  @wolf ||= Wolf.new(args)
 end
