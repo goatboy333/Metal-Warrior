@@ -26,7 +26,7 @@ class Creature
     def follow_the_player(args)
         if @creature_hash[:x] < args.state.player.x + 140 and @creature_hash[:x] > args.state.player.x - 120
 
-        elsif @creature_hash[:x] > args.state.player.x + @speed00
+        elsif @creature_hash[:x] > args.state.player.x + @speed #was @speed00 which i assume was a typo?
             @creature_hash[:x] -= @speed
             @creature_hash[:flip_horizontally] = false
 
