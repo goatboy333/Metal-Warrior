@@ -10,28 +10,15 @@ require 'app/wolf.rb'
 def tick(args)
   initialize_game args
   #debug args
+  #musicBackground args
   background args
   middleground(args)
   foreground args
-  #musicBackground args
   move args
   check_spacebar_spear(args)
   weapon_spear(args)
-  
   #weapon_spear(args)
-
   #enemies_move args
-
-  args.gtk.hide_cursor
-
-  args.state.fireballs ||= []
-  if args.inputs.keyboard.key_down.z
-    args.state.fireballs << [args.state.player.x,args.state.player.y,"fireball"]
-  end
-  args.state.fireballs.each do |fireball|
-    args.outputs.labels << fireball
-  end
-
   @rat.animate(args)
   #rat.stats(args)
   @wolf.animate(args)
@@ -42,6 +29,17 @@ end
 def musicBackground args
   args.outputs.sounds << 'sounds/forest.ogg'
 
+end
+
+def mick_fireball(args)
+
+  args.state.fireballs ||= []
+  if args.inputs.keyboard.key_down.z
+    args.state.fireballs << [args.state.player.x,args.state.player.y,"fireball"]
+  end
+  args.state.fireballs.each do |fireball|
+    args.outputs.labels << fireball
+  end
 end
 
 def move_right(args)
@@ -208,6 +206,7 @@ def weapon_spear(args)
 end
 
 def initialize_game(args)
+  args.gtk.hide_cursor
   args.state.player.x ||= 250
   args.state.player.y ||= 50
   args.state.player.jump ||= false
