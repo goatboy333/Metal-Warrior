@@ -5,25 +5,29 @@ require 'app/rat.rb'
 require 'app/eagle.rb'
 require 'app/bear.rb'
 require 'app/wolf.rb'
+require 'app/player.rb'
 
 
 def tick(args)
   initialize_game args
   #debug args
   #musicBackground args
-  background args
-  middleground(args)
-  foreground args
-  move args
-  check_spacebar_spear(args)
-  weapon_spear(args)
+  #background args
+  #middleground(args)
+  #foreground args
+  #move args
+  #check_spacebar_spear(args)
+  #weapon_spear(args)
   #weapon_spear(args)
   #enemies_move args
+  
+  @player.animate(args)
   @rat.animate(args)
   #rat.stats(args)
   @wolf.animate(args)
   @bear.animate(args)
   @eagle.animate(args)
+  @player.check_keyboard(args)
 end
 
 def musicBackground args
@@ -224,6 +228,7 @@ def initialize_game(args)
   args.state.backgroundY ||= 0
   args.state.groundX ||= 0
   args.state.groundStartPosX ||= 0
+  @player ||= Player.new(args)
   @rat ||= Rat.new(args)
   @eagle ||= Eagle.new(args)
   @bear ||= Bear.new(args)

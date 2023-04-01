@@ -7,6 +7,7 @@ class Player < Creature
         @count = 6
         @width = 100
         @move = false
+        @hero = true
 
         @creature_hash = {
             x: @x,
@@ -25,13 +26,19 @@ end
 
 
 def check_keyboard(args)
-  move = true
+  @move = true
 
   if args.inputs.right
-    move_right(args)
+    #move_right(args)
+    @creature_hash[:x] += 5
+    @creature_hash[:flip_horizontally] = false
+
   elsif args.inputs.left
-    move_left(args)
+    #move_left(args)
+    @creature_hash[:x] -= 5
+    @creature_hash[:flip_horizontally] = true
+    
   else
-    move = false
+    @move = false
   end
 end

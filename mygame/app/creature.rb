@@ -12,6 +12,8 @@ class Creature
         @count = 4
         @hold_for = 5
         @width = 71
+        @hero = false
+        @move = true
 
         @create_hash = {}
     end
@@ -45,8 +47,11 @@ class Creature
             @hold_for,  # how long
             repeat: true  # should it repeat?
         
+        if !@hero
         follow_the_player(args)
-        @creature_hash[:source_x] = @width * sprite_index #if @move
+        end
+
+        @creature_hash[:source_x] = @width * sprite_index if @move
 
  
         args.outputs.sprites << @creature_hash
