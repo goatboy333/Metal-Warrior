@@ -31,13 +31,14 @@ def check_keyboard(args)
   if args.inputs.right
     #move_right(args)
     @creature_hash[:x] += 5
+    args.state.player.x =  @creature_hash[:x]
     @creature_hash[:flip_horizontally] = false
 
   elsif args.inputs.left
     #move_left(args)
     @creature_hash[:x] -= 5
-    @creature_hash[:flip_horizontally] = true
-    
+    args.state.player.x =  @creature_hash[:x]
+    @creature_hash[:flip_horizontally] = true  
   else
     @move = false
   end
