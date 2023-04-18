@@ -1,5 +1,7 @@
 class Player < Creature
 
+  attr_reader :x
+
     def initialize(args) 
         super
         @x = args.state.player.x
@@ -8,6 +10,7 @@ class Player < Creature
         @width = 100
         @move = false
         @hero = true
+        @heroflipped = @flipped
 
         @creature_hash = {
             x: @x,
@@ -22,24 +25,60 @@ class Player < Creature
             flip_horizontally: @flipped,
         }
     end
-end
 
 
-def check_keyboard(args)
-  @move = true
 
-  if args.inputs.right
-    #move_right(args)
-    @creature_hash[:x] += 5
-    args.state.player.x =  @creature_hash[:x]
-    @creature_hash[:flip_horizontally] = false
+  def check_keyboard(args)
+    
+    checkRight(args)
+    checkLeft(args)
+    checkControl(args)
+  end
 
-  elsif args.inputs.left
-    #move_left(args)
+  def checkRight(args)
+    if args.inputs.right
+      #move_right(args)
+      @creature_hash[:x] += 5
+      args.state.player.x =  @creature_hash[:x]
+      @creature_hash[:flip_horizontally] = false
+      @move = true
+    end  
+  end
+
+  def checkLeft(args)  
+    if args.inputs.left
+      #move_left(args)
     @creature_hash[:x] -= 5
     args.state.player.x =  @creature_hash[:x]
     @creature_hash[:flip_horizontally] = true  
-  else
-    @move = false
+    @move = true
+    end
+  end
+  
+  def checkControl(args)
+    if args.inputs.keyboard.control
+      create_spear_attack(args)
+    end
+  end
+
+  def create_spear_attack(args)
+    args.state.current_time = args.tick_count
+    
+    if args.state.current_time - args.state.previous_time > 1
+      args.state.number_of_spears += 1
+      WeaponSpears[args.state.number_of_spears] = Spear.new(args) #(@creature_hash[:x])
+      args.state.previous_time = args.state.current_time
+    end
+    
+    args.state.previous_time = args.state.current_time
+  
+  end
+
+  def return_x(args)
+    return @creature_hash[:x]
+  end
+
+  def return_hero_direction(args)
+    return @creature_hash[:flip_horizontally]
   end
 end

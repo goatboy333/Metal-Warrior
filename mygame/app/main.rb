@@ -6,6 +6,7 @@ require 'app/eagle.rb'
 require 'app/bear.rb'
 require 'app/wolf.rb'
 require 'app/player.rb'
+require 'app/spear.rb'
 
 
 def tick(args)
@@ -21,14 +22,50 @@ def tick(args)
   #weapon_spear(args)
   #enemies_move args
   
-  @player.animate(args)
+  Player1.animate(args)
   @rat.animate(args)
   #rat.stats(args)
   @wolf.animate(args)
   @bear.animate(args)
   @eagle.animate(args)
-  @player.check_keyboard(args)
+  Player1.check_keyboard(args)
+  display_spear(args)
+  #WeaponSpears[1].weaponDisplay(args)
+  #Spears[args.state.number_of_spears].display_spear(args) 
 end
+
+def initialize_game(args)
+  args.gtk.hide_cursor
+  args.state.player.x ||= 250
+  args.state.player.y ||= 50
+  args.state.player.jump ||= false
+  args.state.player.base ||= 50
+  args.state.player.speed = 10
+  args.state.player.direction ||= -1
+  args.state.enemies ||= [{x: 1200, y: 50, direction: 1}]
+  args.state.spear.x  ||= args.state.player.x
+  args.state.spear.y ||= args.state.player.y
+  args.state.spear.active ||= false
+  args.state.spear.direction ||= -1
+  args.state.screenWidth ||= 1280
+  args.state.trigger_sample ||= 0
+  args.state.backgroundX ||= -10
+  args.state.backgroundY ||= 0
+  args.state.groundX ||= 0
+  args.state.groundStartPosX ||= 0
+  Player1 ||= Player.new(args)
+  @rat ||= Rat.new(args)
+  @eagle ||= Eagle.new(args)
+  @bear ||= Bear.new(args)
+  @wolf ||= Wolf.new(args)
+  #Spears ||= Spear.new(args)
+  args.state.number_of_spears ||= 0
+  WeaponSpears ||= []
+
+  args.state.current_time ||= 0
+  args.state.previous_time ||= 0
+end
+
 
 def musicBackground args
   args.outputs.sounds << 'sounds/forest.ogg'
@@ -209,28 +246,3 @@ def weapon_spear(args)
 
 end
 
-def initialize_game(args)
-  args.gtk.hide_cursor
-  args.state.player.x ||= 250
-  args.state.player.y ||= 50
-  args.state.player.jump ||= false
-  args.state.player.base ||= 50
-  args.state.player.speed = 10
-  args.state.player.direction ||= -1
-  args.state.enemies ||= [{x: 1200, y: 50, direction: 1}]
-  args.state.spear.x  ||= args.state.player.x
-  args.state.spear.y ||= args.state.player.y
-  args.state.spear.active ||= false
-  args.state.spear.direction ||= -1
-  args.state.screenWidth ||= 1280
-  args.state.trigger_sample ||= 0
-  args.state.backgroundX ||= -10
-  args.state.backgroundY ||= 0
-  args.state.groundX ||= 0
-  args.state.groundStartPosX ||= 0
-  @player ||= Player.new(args)
-  @rat ||= Rat.new(args)
-  @eagle ||= Eagle.new(args)
-  @bear ||= Bear.new(args)
-  @wolf ||= Wolf.new(args)
-end

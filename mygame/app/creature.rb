@@ -55,6 +55,10 @@ class Creature
 
  
         args.outputs.sprites << @creature_hash
+
+        if @hero
+            @move = false
+        end
     end
 
     def stats(args)
