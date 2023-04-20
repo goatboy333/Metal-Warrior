@@ -13,9 +13,9 @@ def tick(args)
   initialize_game args
   #debug args
   #musicBackground args
-  #background args
-  #middleground(args)
-  #foreground args
+  background args
+  middleground(args)
+  foreground args
   #move args
   #check_spacebar_spear(args)
   #weapon_spear(args)
@@ -25,13 +25,11 @@ def tick(args)
   Player1.animate(args)
   @rat.animate(args)
   #rat.stats(args)
-  @wolf.animate(args)
+  @wolf.animate(args)  #why are these instance variables?
   @bear.animate(args)
   @eagle.animate(args)
   Player1.check_keyboard(args)
   display_spear(args)
-  #WeaponSpears[1].weaponDisplay(args)
-  #Spears[args.state.number_of_spears].display_spear(args) 
 end
 
 def initialize_game(args)
@@ -43,8 +41,8 @@ def initialize_game(args)
   args.state.player.speed = 10
   args.state.player.direction ||= -1
   args.state.enemies ||= [{x: 1200, y: 50, direction: 1}]
-  args.state.spear.x  ||= args.state.player.x
-  args.state.spear.y ||= args.state.player.y
+  #args.state.spear.x  ||= args.state.player.x
+  #args.state.spear.y ||= args.state.player.y
   args.state.spear.active ||= false
   args.state.spear.direction ||= -1
   args.state.screenWidth ||= 1280
@@ -58,12 +56,11 @@ def initialize_game(args)
   @eagle ||= Eagle.new(args)
   @bear ||= Bear.new(args)
   @wolf ||= Wolf.new(args)
-  #Spears ||= Spear.new(args)
-  args.state.number_of_spears ||= 0
-  WeaponSpears ||= []
+  args.state.number_of_spears ||= 0 # basic global to record the number of spears used
+  WeaponSpears ||= []  # array to record the spear instanciations
 
-  args.state.current_time ||= 0
-  args.state.previous_time ||= 0
+  args.state.current_time ||= 0 # Record current time
+  args.state.previous_time ||= 0 # record the time at the end of a function to compare to current time
 end
 
 

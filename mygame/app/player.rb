@@ -1,6 +1,6 @@
 class Player < Creature
 
-  attr_reader :x
+  attr_reader :flipped, :x
 
     def initialize(args) 
         super
@@ -64,9 +64,10 @@ class Player < Creature
   def create_spear_attack(args)
     args.state.current_time = args.tick_count
     
-    if args.state.current_time - args.state.previous_time > 1
+    if args.state.current_time - args.state.previous_time > 3
       args.state.number_of_spears += 1
-      WeaponSpears[args.state.number_of_spears] = Spear.new(args) #(@creature_hash[:x])
+      #playerDirection = @creature_hash[:flip_horizontally] #(@creature_hash[:x]
+      WeaponSpears[args.state.number_of_spears] = Spear.new(args)
       args.state.previous_time = args.state.current_time
     end
     
@@ -78,7 +79,9 @@ class Player < Creature
     return @creature_hash[:x]
   end
 
-  def return_hero_direction(args)
-    return @creature_hash[:flip_horizontally]
-  end
 end
+
+def return_hero_direction(args)
+  return @creature_hash[:flip_horizontally]
+end
+

@@ -3,7 +3,7 @@ class Spear
     def initialize(args)
         @x = args.state.player.x #xPos
         @y = args.state.player.y + 65
-        @direction = false
+        @direction = @flipped
         @hash_spear = {
             x: @x,
             y: @y,
@@ -38,6 +38,10 @@ class Spear
         end
     end
 =end
+end
+
+def playerDirectionForSpear(args)
+    @hash_spear[:flip_horizontally] = return_hero_direction(args)
 end
 
 def display_spear(args)
