@@ -19,7 +19,7 @@ class Wolf < Creature
             path: 'sprites/enemies/wolf.png',
             source_x: 56,
             source_y: 0,
-            source_w: @width,
+            source_w: 56,
             source_h: 32,
             flip_horizontally: false,
           } 

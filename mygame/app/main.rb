@@ -22,13 +22,13 @@ def tick(args)
   #weapon_spear(args)
   #enemies_move args
   
-  Player1.animate(args)
+  @player.animate(args)
   @rat.animate(args)
   #rat.stats(args)
   @wolf.animate(args)  #why are these instance variables?
   @bear.animate(args)
   @eagle.animate(args)
-  Player1.check_keyboard(args)
+  @player.check_keyboard(args)
   display_spear(args)
 end
 
@@ -51,13 +51,14 @@ def initialize_game(args)
   args.state.backgroundY ||= 0
   args.state.groundX ||= 0
   args.state.groundStartPosX ||= 0
-  Player1 ||= Player.new(args)
+  
+  @player ||= Player.new(args)
   @rat ||= Rat.new(args)
   @eagle ||= Eagle.new(args)
   @bear ||= Bear.new(args)
   @wolf ||= Wolf.new(args)
   args.state.number_of_spears ||= 0 # basic global to record the number of spears used
-  WeaponSpears ||= []  # array to record the spear instanciations
+  args.state.weapon_spears ||= []  # array to record the spear instanciations
 
   args.state.current_time ||= 0 # Record current time
   args.state.previous_time ||= 0 # record the time at the end of a function to compare to current time
@@ -69,6 +70,7 @@ def musicBackground args
 
 end
 
+# -----------------------------------------------------------
 def mick_fireball(args)
 
   args.state.fireballs ||= []

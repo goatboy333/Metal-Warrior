@@ -1,17 +1,18 @@
 class Spear
 
-    def initialize(args)
-        @x = args.state.player.x #xPos
-        @y = args.state.player.y + 65
-        @direction = @flipped
+    def initialize(player_x, player_y, flipped)
+        SPEED = 10
+        @player_x = player_x 
+        @player_y = player_y + 65
+        @direction = flipped
         @hash_spear = {
-            x: @x,
-            y: @y,
+            x: @player_x,
+            y: @player_y,
             w: 100 * 1.5,
             h: 27,
             path: 'sprites/weapons/spear.png',
             flip_horizontally: @direction
-            }
+        }
     end
 
     def weaponDisplay(args)
@@ -19,7 +20,7 @@ class Spear
     end
 
     def moveSpear(args)
-        @hash_spear[:x] += 10
+        @hash_spear[:x] += SPEED
     end
     
 =begin
@@ -48,8 +49,8 @@ def display_spear(args)
     if args.state.number_of_spears > 0
         i = 1
         args.state.number_of_spears.times {
-        WeaponSpears[i].weaponDisplay(args)
-        WeaponSpears[i].moveSpear(args)
+        args.state.weapon_spears[i].weaponDisplay(args)
+        args.state.weapon_spears[i].moveSpear(args)
         i += 1
         }
     end

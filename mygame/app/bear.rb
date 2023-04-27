@@ -10,7 +10,6 @@ class Bear < Creature
         @move = true
         @count = 3
         @hold_for = 10
-        @width = 76
         @creature_hash = {
             x: @x,
             y: @y,
@@ -19,7 +18,7 @@ class Bear < Creature
             path: 'sprites/bear/black_bear_2.png',
             source_x: 76,
             source_y: 0,
-            source_w: @width,
+            source_w: 76,
             source_h: 64,
             flip_horizontally: false,
           } 

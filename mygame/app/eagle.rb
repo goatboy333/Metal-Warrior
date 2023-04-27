@@ -10,7 +10,6 @@ class Eagle < Creature
         @move = true
         @count = 3
         @hold_for = 10
-        @width = 32
         @creature_hash = {
             x: @x,
             y: @y,
@@ -19,7 +18,7 @@ class Eagle < Creature
             path: 'sprites/eagle/bird_2_eagle.png',
             source_x: 32,
             source_y: 224,
-            source_w: @width,
+            source_w: 32,
             source_h: 32,
             flip_horizontally: false,
           } 

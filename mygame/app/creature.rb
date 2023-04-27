@@ -51,8 +51,7 @@ class Creature
         follow_the_player(args)
         end
 
-        @creature_hash[:source_x] = @width * sprite_index if @move
-
+        @creature_hash[:source_x] = @creature_hash[:source_w] * sprite_index if @move
  
         args.outputs.sprites << @creature_hash
 
