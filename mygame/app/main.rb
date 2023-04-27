@@ -64,6 +64,12 @@ def initialize_game(args)
   args.state.previous_time ||= 0 # record the time at the end of a function to compare to current time
 end
 
+def display_spear(args)
+  args.state.weapon_spears.each do |spear| 
+    spear.display(args)
+    spear.move(args)
+  end
+end
 
 def musicBackground args
   args.outputs.sounds << 'sounds/forest.ogg'

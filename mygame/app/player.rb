@@ -57,7 +57,7 @@ class Player < Creature
     
     if args.state.current_time - args.state.previous_time > 3
       args.state.number_of_spears += 1
-      args.state.weapon_spears[args.state.number_of_spears] = Spear.new(@creature_hash[:x],
+      args.state.weapon_spears << Spear.new(@creature_hash[:x],
         @creature_hash[:y],
         @creature_hash[:flip_horizontally])
       args.state.previous_time = args.state.current_time
