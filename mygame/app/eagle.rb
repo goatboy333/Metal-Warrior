@@ -2,8 +2,6 @@ class Eagle < Creature
 
     def initialize(args)
         super
-        @x = 0
-        @y = 70
         @health = 10
         @damage = 3
         @speed = 5
@@ -11,8 +9,8 @@ class Eagle < Creature
         @count = 3
         @hold_for = 10
         @creature_hash = {
-            x: @x,
-            y: @y,
+            x: 0,
+            y: 70,
             w: 50 * 3.5,
             h: 32 * 3.5,
             path: 'sprites/eagle/bird_2_eagle.png',

@@ -35,8 +35,6 @@ class Creature
         elsif @creature_hash[:x] < args.state.screenWidth
             @creature_hash[:x] += @speed
             @creature_hash[:flip_horizontally] = true
-        else
-
         end
     end
 
@@ -48,7 +46,7 @@ class Creature
             repeat: true  # should it repeat?
         
         if !@hero
-        follow_the_player(args)
+            follow_the_player(args)
         end
 
         @creature_hash[:source_x] = @creature_hash[:source_w] * sprite_index if @move

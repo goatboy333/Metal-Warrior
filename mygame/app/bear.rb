@@ -2,8 +2,6 @@ class Bear < Creature
 
     def initialize(args)
         super
-        @x = 100
-        @y = 50
         @health = 40
         @damage = 20
         @speed = 3
@@ -11,8 +9,8 @@ class Bear < Creature
         @count = 3
         @hold_for = 10
         @creature_hash = {
-            x: @x,
-            y: @y,
+            x: 100,
+            y: 50,
             w: 76 * 3.5,
             h: 64 * 3.5,
             path: 'sprites/bear/black_bear_2.png',
