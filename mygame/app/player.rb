@@ -67,14 +67,4 @@ class Player < Creature
   
   end
 
-  # -----------------------------------------
-  def return_x(args)
-    return @creature_hash[:x]
-  end
-
 end
-
-def return_hero_direction(args)
-  return @creature_hash[:flip_horizontally]
-end
-

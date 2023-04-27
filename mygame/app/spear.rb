@@ -41,6 +41,7 @@ class Spear
 =end
 end
 
+# -------------------------------------------
 def playerDirectionForSpear(args)
     @hash_spear[:flip_horizontally] = return_hero_direction(args)
 end
