@@ -1,11 +1,11 @@
 class Spear
 
     def initialize(player_x, player_y, flipped)
-        SPEED = 10
         @player_x = player_x 
         @player_y = player_y + 65
         @direction = flipped
         @hash_spear = {
+            speed: 10,
             x: @player_x,
             y: @player_y,
             w: 100 * 1.5,
@@ -21,16 +21,15 @@ class Spear
 
     def move(args)
         if @direction
-            @hash_spear[:x] -= SPEED
+            @hash_spear[:x] -= @hash_spear[:speed]
         else
-            @hash_spear[:x] += SPEED
+            @hash_spear[:x] += @hash_spear[:speed]
         end
     end
     
-    def hit(enemies)
-        enemies.each do |enemy|
-            
-            #puts "HIT #{enemy}"
+    def hit(args)
+        args.state.enemies.reject do |enemy|
+            @hash_spear.intersect_rect?(enemy.rect)
         end
     end
 end

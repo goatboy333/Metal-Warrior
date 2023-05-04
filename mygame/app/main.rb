@@ -48,7 +48,10 @@ def initialize_game(args)
   @eagle ||= Eagle.new(args)
   @bear ||= Bear.new(args)
   @wolf ||= Wolf.new(args)
-  args.state.enemies = [@rat,@eagle,@bear,@wolf]
+
+  [@rat,@eagle,@bear,@wolf].each do |enemy|
+    args.state.enemies << enemy
+  end
 
   args.state.weapon_spears ||= []  # array to record the spear instanciations
 
@@ -58,7 +61,7 @@ end
 
 def display_spear(args)
   args.state.weapon_spears.each do |spear| 
-    spear.hit(args.state.enemies)
+    spear.hit(args)
     spear.display(args)
     spear.move(args)
   end

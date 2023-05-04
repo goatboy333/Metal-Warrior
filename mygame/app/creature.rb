@@ -1,6 +1,6 @@
 class Creature
 
-    attr_accessor :x,:y,:width,:health
+    attr_accessor :x,:y,:width,:health,:creature_hash
 
     def initialize(args)
         @x = 0
@@ -15,7 +15,11 @@ class Creature
         @hero = false
         @move = true
 
-        @create_hash = {}
+        @creature_hash = {}
+    end
+
+    def rect()
+        [@creature_hash[:x], @creature_hash[:y], @creature_hash[:w], @creature_hash[:h]]
     end
 
     def take_damage(value)
