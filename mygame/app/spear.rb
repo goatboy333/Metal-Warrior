@@ -27,5 +27,11 @@ class Spear
         end
     end
     
+    def hit(enemies)
+        enemies.each do |enemy|
+            
+            #puts "HIT #{enemy}"
+        end
+    end
 end
 

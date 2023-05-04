@@ -23,9 +23,17 @@ class Player < Creature
   end
 
   def check_keyboard(args)
+    bound(args,@creature_hash)
     move_right(args)
     move_left(args)
     attack(args)
+  end
+
+  def bound(args,player)
+    player.x = player.x.greater(args.grid.left)
+    player.x = player.x.lesser(args.grid.right - player.w)
+    player.y = player.y.greater(args.grid.bottom)
+    player.y = player.y.lesser(args.grid.top - player.h)
   end
 
   def move_right(args)

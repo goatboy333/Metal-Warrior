@@ -1,6 +1,6 @@
 class Creature
 
-    attr_accessor :health
+    attr_accessor :x,:y,:width,:health
 
     def initialize(args)
         @x = 0
