@@ -60,6 +60,8 @@ def initialize_game(args)
 end
 
 def display_spear(args)
+
+
   args.state.weapon_spears.each do |spear| 
     spear.hit(args)
     spear.display(args)

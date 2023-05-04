@@ -1,5 +1,5 @@
 class Spear
-
+  
     def initialize(player_x, player_y, flipped)
         @player_x = player_x 
         @player_y = player_y + 65
@@ -29,7 +29,9 @@ class Spear
     
     def hit(args)
         args.state.enemies.reject do |enemy|
-            @hash_spear.intersect_rect?(enemy.rect)
+            #spear_rect = [@hash_spear.x,@hash_spear.y,@hash_spear.w,@hash_spear.h]
+            #GTK::Geometry.intersect_rect? spear_rect, enemy_rect
+            true
         end
     end
 end
