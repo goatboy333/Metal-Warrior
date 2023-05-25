@@ -18,6 +18,11 @@ class MyGame
 
   def tick
     handle_input
+    player_start_animation_on_tick = 0
+
+    # how many, long, repeat
+    player_sprite_index = player_start_animation_on_tick.frame_index 6, 5, true
+    player.source_x = player.source_w * player_sprite_index
     render
   end
 
@@ -36,6 +41,7 @@ class MyGame
   end
 
   def render
+
     outputs.sprites << player
   end
 end
@@ -61,6 +67,10 @@ def tick args
   $my_game.args = args
   $my_game.tick
 end
+
+
+
+
 
 # def tick(args)
 #   initialize_game args
