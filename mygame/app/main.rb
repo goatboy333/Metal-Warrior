@@ -10,10 +10,11 @@
 
 class MyGame
   attr_gtk
-  attr_reader :player
+  attr_reader :player, :rat
 
   def initialize(args)
     @player = Player.new(args.grid.w / 2, args.grid.h / 8)
+    @rat    = Rat.new(args.grid.w - 200, args.grid.h / 8)
   end
 
   def tick
@@ -41,8 +42,7 @@ class MyGame
   end
 
   def render
-
-    outputs.sprites << player
+    outputs.sprites << player << rat
   end
 end
 
@@ -59,6 +59,22 @@ class Player
     @source_y = 0
     @source_w = 100
     @source_h = 74
+  end
+end
+
+class Rat
+  attr_sprite
+
+  def initialize(x,y)
+    @x = x
+    @y = y
+    @w = 70 * 1.3
+    @h = 58 * 1.3
+    @path = 'sprites/rat/rat-charset.png'
+    @source_x = 0
+    @source_y = 100
+    @source_w = 71
+    @source_h = 58
   end
 end
 
