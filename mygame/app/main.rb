@@ -14,16 +14,22 @@ class MyGame
 
   def initialize(args)
     @player = Player.new(args.grid.w / 2, args.grid.h / 8)
-    @rat    = Rat.new(args.grid.w - 200, args.grid.h / 8)
+    @rat    = Rat.new(args.grid.w - 200, 20)
   end
 
   def tick
     handle_input
-    player_start_animation_on_tick = 0
 
     # how many, long, repeat
+    player_start_animation_on_tick = 0
     player_sprite_index = player_start_animation_on_tick.frame_index 6, 5, true
     player.source_x = player.source_w * player_sprite_index
+
+    # how many, long, repeat
+    rat_start_animation_on_tick = 0
+    rat_sprite_index = rat_start_animation_on_tick.frame_index 4, 5, true
+    rat.source_x = rat.source_w * rat_sprite_index
+
     render
   end
 
