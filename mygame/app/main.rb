@@ -17,18 +17,17 @@ class MyGame
     @rat    = Rat.new(args.grid.w - 200, 20)
   end
 
+  def calc_animation(obj,how_many,long,repeat)
+    start_animation_on_tick = 0
+    sprite_index = start_animation_on_tick.frame_index how_many, long, repeat
+    obj.source_x = obj.source_w * sprite_index
+  end
+
   def tick
     handle_input
 
-    # how many, long, repeat
-    player_start_animation_on_tick = 0
-    player_sprite_index = player_start_animation_on_tick.frame_index 6, 5, true
-    player.source_x = player.source_w * player_sprite_index
-
-    # how many, long, repeat
-    rat_start_animation_on_tick = 0
-    rat_sprite_index = rat_start_animation_on_tick.frame_index 4, 5, true
-    rat.source_x = rat.source_w * rat_sprite_index
+    calc_animation(player,6,5,true)
+    calc_animation(rat,4,5,true)
 
     render
   end
