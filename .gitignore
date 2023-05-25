@@ -2,3 +2,5 @@ tmp
 *.txt
 .vscode
 
+/screenshots/
+/exceptions/
