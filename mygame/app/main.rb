@@ -13,7 +13,7 @@ class MyGame
   attr_reader :player
 
   def initialize(args)
-    @player = Player.new(args.grid.w / 2, args.grid.h / 2)
+    @player = Player.new(args.grid.w / 2, args.grid.h / 8)
   end
 
   def tick
