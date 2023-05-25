@@ -24,8 +24,10 @@ class MyGame
   def handle_input
     if keyboard.left
       player.x -= 10
+      player.flip_horizontally = true
     elsif keyboard.right
       player.x += 10
+      player.flip_horizontally = false
     elsif keyboard.down
       player.y -= 10
     elsif keyboard.up
@@ -54,7 +56,6 @@ class Player
   end
 end
 
-
 def tick args
   $my_game ||= MyGame.new(args)
   $my_game.args = args
@@ -67,7 +68,6 @@ end
 #   background args
 #   middleground(args)
 #   foreground args
-
 #   @player.animate(args)
 #   @rat.animate(args)
 #   @wolf.animate(args)  #why are these instance variables?
