@@ -13,7 +13,7 @@ class MyGame
   attr_reader :player, :rat
 
   def initialize(args)
-    @player = Player.new(args.grid.w / 2, args.grid.h / 8)
+    @player = Player.new(args.grid.w / 2, 55)
     @rat    = Rat.new(args.grid.w - 200, 20)
   end
 
