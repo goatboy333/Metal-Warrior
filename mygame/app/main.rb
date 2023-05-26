@@ -13,8 +13,8 @@ class MyGame
   attr_reader :player, :rat
 
   def initialize(args)
-    @player = Player.new(args.grid.w / 2, 55)
-    @rat    = Rat.new(args.grid.w - 200, 20)
+    @player = Player.new(args.grid.w / 2, 50)
+    @rat    = Rat.new(args.grid.w - 200, 24)
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -26,7 +26,7 @@ class MyGame
   def tick
     handle_input
 
-    calc_animation(player,6,5,true)
+    calc_animation(player,8,9,true)
     calc_animation(rat,4,5,true)
 
     render
@@ -36,13 +36,21 @@ class MyGame
     if keyboard.left
       player.x -= 10
       player.flip_horizontally = true
+      player.source_y = player.action[:run]
     elsif keyboard.right
       player.x += 10
       player.flip_horizontally = false
-    elsif keyboard.down
-      player.y -= 10
-    elsif keyboard.up
-      player.y += 10
+      player.source_y = player.action[:run]
+    # elsif keyboard.down
+    #   player.y -= 10
+    #   player.source_y = player.action[:run]
+    # elsif keyboard.up
+    #   player.y += 10
+    #   player.source_y = player.action[:run]
+    elsif keyboard.space
+      player.source_y = player.action[:attack]
+    else
+      player.source_y = player.action[:idle]
     end
   end
 
@@ -53,17 +61,23 @@ end
 
 class Player
   attr_sprite
+  attr_reader :action
 
   def initialize(x, y)
     @x = x
     @y = y
-    @w = 100 * 2.5
-    @h = 74 * 2.5
-    @path = 'sprites/villager/Run/villager_run.png'
-    @source_x = 100
-    @source_y = 0
-    @source_w = 100
-    @source_h = 74
+    @w = 288 * 2.5
+    @h = 128 * 2.5
+    # @path = 'sprites/villager/Run/villager_run.png'
+    @path ='/sprites/bladekeeper/spritesheets/metal_bladekeeper_FREE_v1.1_SpriteSheet_288x128.png'
+    @source_w = 288
+    @source_h = 128
+    @action = {idle: 15 * @source_h,
+               run: 14 * @source_h,
+               attack: 5 * @source_h,
+               die: 0 * @source_h}
+    @source_x = 0
+    @source_y = @action[:idle]
   end
 end
 
@@ -73,8 +87,8 @@ class Rat
   def initialize(x,y)
     @x = x
     @y = y
-    @w = 70 * 1.3
-    @h = 58 * 1.3
+    @w = 71 * 1
+    @h = 58 * 1
     @path = 'sprites/rat/rat-charset.png'
     @source_x = 0
     @source_y = 100
