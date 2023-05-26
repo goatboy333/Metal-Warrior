@@ -15,6 +15,7 @@ class MyGame
   def initialize(args)
     @player = Player.new(args.grid.w / 2, 50)
     @rat    = Rat.new(args.grid.w - 200, 24)
+    @jump_timer=0
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -26,31 +27,53 @@ class MyGame
   def tick
     handle_input
 
-    calc_animation(player,8,9,true)
+    if @jump_timer > 0
+      calc_animation(player,20,5,true)
+      @jump_timer -= 1
+
+      if @jump_timer > 30
+        player.source_y = player.source_y - 2
+      else
+        player.source_y = player.source_y + 2
+      end
+
+      if player.flip_horizontally
+        player.source_x = player.source_x + 2
+      else
+        player.source_x = player.source_x - 2
+      end
+    else
+      calc_animation(player,8,9,true)
+    end
+
     calc_animation(rat,4,5,true)
 
     render
   end
 
   def handle_input
-    if keyboard.left
-      player.x -= 10
-      player.flip_horizontally = true
-      player.source_y = player.action[:run]
-    elsif keyboard.right
-      player.x += 10
-      player.flip_horizontally = false
-      player.source_y = player.action[:run]
-    # elsif keyboard.down
-    #   player.y -= 10
-    #   player.source_y = player.action[:run]
-    # elsif keyboard.up
-    #   player.y += 10
-    #   player.source_y = player.action[:run]
-    elsif keyboard.space
-      player.source_y = player.action[:attack]
-    else
-      player.source_y = player.action[:idle]
+    if keyboard.up & @jump_timer == 0
+      @jump_timer = 60
+      player.source_y = player.action[:jump]
+    end
+
+    if @jump_timer == 0
+      if keyboard.left
+        player.x -= 10
+        player.flip_horizontally = true
+        player.source_y = player.action[:run]
+      elsif keyboard.right
+        player.x += 10
+        player.flip_horizontally = false
+        player.source_y = player.action[:run]
+        # elsif keyboard.down
+        #   player.y -= 10
+        #   player.source_y = player.action[:run]
+      elsif keyboard.space
+        player.source_y = player.action[:attack]
+      elsif @jump_timer == 0
+        player.source_y = player.action[:idle]
+      end
     end
   end
 
@@ -74,6 +97,7 @@ class Player
     @source_h = 128
     @action = {idle: 15 * @source_h,
                run: 14 * @source_h,
+               jump: 11 * @source_h,
                attack: 5 * @source_h,
                die: 0 * @source_h}
     @source_x = 0
