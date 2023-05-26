@@ -1,5 +1,5 @@
 # require 'app/debug.rb'
-# require 'app/backgrounds.rb'
+require 'app/backgrounds.rb'
 # require 'app/creature.rb'
 # require 'app/rat.rb'
 # require 'app/eagle.rb'
@@ -98,19 +98,19 @@ class Rat
 end
 
 def tick args
+  $my_game.background args
+  $my_game.middleground args
+  $my_game.foreground args
+
   $my_game ||= MyGame.new(args)
   $my_game.args = args
   $my_game.tick
 end
 
 
-
-
-
 # def tick(args)
 #   initialize_game args
 #   #music_background args
-#   background args
 #   middleground(args)
 #   foreground args
 #   @player.animate(args)
@@ -157,8 +157,6 @@ end
 # end
 
 # def display_spear(args)
-
-
 #   args.state.weapon_spears.each do |spear|
 #     spear.hit(args)
 #     spear.display(args)
