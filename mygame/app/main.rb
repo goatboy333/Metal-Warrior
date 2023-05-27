@@ -10,11 +10,11 @@ require 'app/backgrounds.rb'
 
 class MyGame
   attr_gtk
-  attr_reader :player, :rat
+  attr_reader :player, :wolf
 
   def initialize(args)
-    @player = Player.new(args.grid.w / 2, 50)
-    @rat    = Rat.new(args.grid.w - 200, 24)
+    @player = Player.new(args.grid.w / 4, 50)
+    @wolf    = Wolf.new(args.grid.w - 200, 50)
     @jump_timer=0
   end
 
@@ -46,7 +46,7 @@ class MyGame
       calc_animation(player,8,9,true)
     end
 
-    calc_animation(rat,4,5,true)
+    calc_animation(wolf,4,5,true)
 
     render
   end
@@ -78,7 +78,7 @@ class MyGame
   end
 
   def render
-    outputs.sprites << player << rat
+    outputs.sprites << player << wolf
   end
 end
 
@@ -103,6 +103,32 @@ class Player
     @source_x = 0
     @source_y = @action[:idle]
   end
+end
+
+class Wolf
+  attr_sprite
+
+  def initialize(x,y)
+    @x = x
+    @y = y
+    @w = 50 * 3
+    @h = 32 * 3
+    @path = 'sprites/enemies/wolf.png'
+    @source_x = 56
+    @source_y = 0
+    @source_w = 56
+    @source_h = 32
+  end
+end
+
+def tick args
+  $my_game.background args
+  $my_game.middleground args
+  $my_game.foreground args
+
+  $my_game ||= MyGame.new(args)
+  $my_game.args = args
+  $my_game.tick
 end
 
 class Rat
