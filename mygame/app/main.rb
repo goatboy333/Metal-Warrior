@@ -52,7 +52,7 @@ class MyGame
   end
 
   def handle_input
-    if keyboard.up & @jump_timer == 0
+    if keyboard.up && @jump_timer == 0
       @jump_timer = 60
       player.source_y = player.action[:jump]
     end
