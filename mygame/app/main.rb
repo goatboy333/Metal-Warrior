@@ -30,6 +30,7 @@ class MyGame
 
     player_rect = {x: player.x + (player.w / 2), y: player.y, w: 60, h: 50} # Select just the player, no transparency
     if args.geometry.intersect_rect?(player_rect, wolf)
+      wolf.hit(20)
       puts "HIT"
     else
       puts "NOT HIT"
@@ -96,15 +97,19 @@ class MyGame
   end
 
   def render
-    outputs.sprites << player << wolf
+    [player,wolf].each do |sprite|
+      outputs.sprites << sprite if sprite.health > 0
+    end
   end
 end
 
 class Player
   attr_sprite
   attr_reader :action
+  attr_accessor :health
 
   def initialize(x, y)
+    @health = 100
     @x = x
     @y = y
     @w = 288 * 2.5
@@ -121,12 +126,15 @@ class Player
     @source_x = 0
     @source_y = @action[:idle]
   end
+
 end
 
 class Wolf
   attr_sprite
+  attr_accessor :health
 
   def initialize(x,y)
+    @health = 100
     @x = x
     @y = y
     @w = 50 * 3
@@ -136,6 +144,10 @@ class Wolf
     @source_y = 0
     @source_w = 56
     @source_h = 32
+  end
+
+  def hit(damage)
+    @health -= damage
   end
 end
 
