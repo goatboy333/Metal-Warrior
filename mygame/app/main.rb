@@ -29,12 +29,6 @@ class MyGame
     handle_input
 
     player_rect = {x: player.x + (player.w / 2), y: player.y, w: 60, h: 50} # Select just the player, no transparency
-    if args.geometry.intersect_rect?(player_rect, wolf)
-      wolf.hit(20)
-      puts "HIT"
-    else
-      puts "NOT HIT"
-    end
 
     if @jump_timer > 0
       calc_animation(player,20,5,true)
@@ -55,6 +49,13 @@ class MyGame
     elsif @attack_timer > 0
       @attack_timer -= 1
       calc_animation(player,8,9,true)
+
+      if args.geometry.intersect_rect?(player_rect, wolf)
+        wolf.hit(0.5)
+        puts "HIT"
+      else
+        puts "NOT HIT"
+      end
 
     else
       calc_animation(player,8,9,true)
