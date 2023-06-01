@@ -28,6 +28,13 @@ class MyGame
   def tick
     handle_input
 
+    player_rect = {x: player.x + (player.w / 2), y: player.y, w: 60, h: 50} # Select just the player, no transparency
+    if args.geometry.intersect_rect?(player_rect, wolf)
+      puts "HIT"
+    else
+      puts "NOT HIT"
+    end
+
     if @jump_timer > 0
       calc_animation(player,20,5,true)
       @jump_timer -= 1
