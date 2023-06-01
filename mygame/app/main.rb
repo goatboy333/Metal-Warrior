@@ -16,6 +16,7 @@ class MyGame
     @player = Player.new(args.grid.w / 4, 50)
     @wolf    = Wolf.new(args.grid.w - 200, 50)
     @jump_timer=0
+    @attack_timer=0
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -42,6 +43,11 @@ class MyGame
       else
         player.source_x = player.source_x - 2
       end
+
+    elsif @attack_timer > 0
+      @attack_timer -= 1
+      calc_animation(player,8,9,true)
+
     else
       calc_animation(player,8,9,true)
     end
@@ -57,7 +63,12 @@ class MyGame
       player.source_y = player.action[:jump]
     end
 
-    if @jump_timer == 0
+    if keyboard.space
+      @attack_timer = 60
+      player.source_y = player.action[:attack]
+    end
+
+    if @jump_timer == 0 && @attack_timer == 0
       if keyboard.left
         player.x -= 10
         player.flip_horizontally = true
