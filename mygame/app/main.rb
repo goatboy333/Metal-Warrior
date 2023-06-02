@@ -100,8 +100,8 @@ class MyGame
   def render
     [player,wolf].each do |sprite|
       outputs.sprites << sprite if sprite.health > 0
-      outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100 , w: 50, h: 10}
-      outputs.solids << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}
+      outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100 , w: 50, h: 10} if sprite.health > 0
+      outputs.solids << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 0, b:0, a: 255} if sprite.health > 0
     end
   end
 end
