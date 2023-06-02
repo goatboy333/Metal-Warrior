@@ -100,16 +100,19 @@ class MyGame
   def render
     [player,wolf].each do |sprite|
       outputs.sprites << sprite if sprite.health > 0
+      outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100 , w: 50, h: 10}
+      outputs.solids << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}
     end
   end
 end
 
 class Player
   attr_sprite
-  attr_reader :action
+  attr_reader :action, :max_health
   attr_accessor :health
 
   def initialize(x, y)
+    @max_health = 100
     @health = 100
     @x = x
     @y = y
@@ -132,9 +135,11 @@ end
 
 class Wolf
   attr_sprite
+  attr_reader  :max_health
   attr_accessor :health
 
   def initialize(x,y)
+    @max_health = 100
     @health = 100
     @x = x
     @y = y
@@ -153,9 +158,9 @@ class Wolf
 end
 
 def tick args
-  $my_game.background args
-  $my_game.middleground args
-  $my_game.foreground args
+  #$my_game.background args
+  #$my_game.middleground args
+  #$my_game.foreground args
 
   $my_game ||= MyGame.new(args)
   $my_game.args = args
@@ -178,15 +183,15 @@ class Rat
   end
 end
 
-def tick args
-  $my_game.background args
-  $my_game.middleground args
-  $my_game.foreground args
+# def tick args
+#   #$my_game.background args
+#   #$my_game.middleground args
+#   #$my_game.foreground args
 
-  $my_game ||= MyGame.new(args)
-  $my_game.args = args
-  $my_game.tick
-end
+#   $my_game ||= MyGame.new(args)
+#   $my_game.args = args
+#   $my_game.tick
+# end
 
 
 # def tick(args)
