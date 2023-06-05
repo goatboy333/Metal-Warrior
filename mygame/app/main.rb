@@ -17,6 +17,7 @@ class MyGame
     @wolf    = Wolf.new(args.grid.w - 200, 50)
     @jump_timer=0
     @attack_timer=0
+    @hit = false # temporary hit tracker to avoid multiple hits
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -48,17 +49,27 @@ class MyGame
 
     elsif @attack_timer > 0
       @attack_timer -= 1
-      calc_animation(player,8,9,true)
+      calc_animation(player,8,5,true)
 
-      if args.geometry.intersect_rect?(player_rect, wolf)
-        wolf.hit(0.5)
-        puts "HIT"
+      if args.geometry.intersect_rect?(player_rect, wolf) 
+        if @hit == true && @attack_timer == 0
+          @hit = false
+        end
+
+        if @hit == false
+          wolf.hit(20)
+          puts "HIT"
+          @hit = true
+          
+        end
       else
+          
         puts "NOT HIT"
+        @hit = false
       end
 
     else
-      calc_animation(player,8,9,true)
+      calc_animation(player,8,5,true)
     end
 
     calc_animation(wolf,4,5,true)
@@ -100,8 +111,8 @@ class MyGame
   def render
     [player,wolf].each do |sprite|
       outputs.sprites << sprite if sprite.health > 0
-      outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100 , w: 50, h: 10} if sprite.health > 0
-      outputs.solids << {x: sprite.x + (sprite.w / 2), y: sprite.y + 100, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 0, b:0, a: 255} if sprite.health > 0
+      outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50, h: 10} if sprite.health > 0
+      outputs.solids << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255} if sprite.health > 0
     end
   end
 end
