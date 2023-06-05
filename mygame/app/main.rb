@@ -85,7 +85,7 @@ class MyGame
       player.source_y = player.action[:jump]
     end
 
-    if keyboard.space
+    if keyboard.space || keyboard.control
       @attack_timer = 18
       player.source_y = player.action[:attack]
     end
@@ -102,8 +102,8 @@ class MyGame
         # elsif keyboard.down
         #   player.y -= 10
         #   player.source_y = player.action[:run]
-      elsif keyboard.space
-        player.source_y = player.action[:attack]
+      #elsif keyboard.space
+      #  player.source_y = player.action[:attack]
       elsif @jump_timer == 0
         player.source_y = player.action[:idle]
       end
