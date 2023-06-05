@@ -49,7 +49,7 @@ class MyGame
 
     elsif @attack_timer > 0
       @attack_timer -= 1
-      calc_animation(player,8,3,true)
+      calc_animation(player,6,3,true)
 
       if args.geometry.intersect_rect?(player_rect, wolf) 
         
@@ -71,7 +71,7 @@ class MyGame
       end
 
     else
-      calc_animation(player,8,3,true)
+      calc_animation(player,6,3,true)
     end
 
     calc_animation(wolf,4,5,true)
@@ -86,7 +86,7 @@ class MyGame
     end
 
     if keyboard.space
-      @attack_timer = 60
+      @attack_timer = 18
       player.source_y = player.action[:attack]
     end
 
@@ -114,7 +114,7 @@ class MyGame
     [player,wolf].each do |sprite|
       outputs.sprites << sprite if sprite.health > 0
       outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50, h: 10} if sprite.health > 0
-      outputs.solids << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255} if sprite.health > 0
+      outputs.primitives << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}.solid if sprite.health > 0
     end
   end
 end
@@ -138,7 +138,7 @@ class Player
     @action = {idle: 15 * @source_h,
                run: 14 * @source_h,
                jump: 11 * @source_h,
-               attack: 5 * @source_h,
+               attack: 6 * @source_h,
                die: 0 * @source_h}
     @source_x = 0
     @source_y = @action[:idle]
@@ -171,9 +171,9 @@ class Wolf
 end
 
 def tick args
-  #$my_game.background args
-  #$my_game.middleground args
-  #$my_game.foreground args
+  $my_game.background args
+  $my_game.middleground args
+  $my_game.foreground args
 
   $my_game ||= MyGame.new(args)
   $my_game.args = args
