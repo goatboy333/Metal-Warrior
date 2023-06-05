@@ -1,3 +1,8 @@
 * Readme
 
 Metal Warrior is a side scroller adventure game in which you start of as a villager and then your aim is to become a metal god!
+
+Current bugs to fix :
+- Getting output.solids to be brought to foreground when backgrounds are added.
+- attempt to recalculate sprite sheet source_* to lessen the sprite size
+- Change attack to single strike

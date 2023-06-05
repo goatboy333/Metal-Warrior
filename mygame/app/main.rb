@@ -49,7 +49,7 @@ class MyGame
 
     elsif @attack_timer > 0
       @attack_timer -= 1
-      calc_animation(player,8,9,true)
+      calc_animation(player,8,3,true)
 
       if args.geometry.intersect_rect?(player_rect, wolf) 
         
@@ -63,7 +63,7 @@ class MyGame
         if @hit == true && @attack_timer - 1 < 0
           @hit = false
         end
-        
+
       else
           
         puts "NOT HIT"
@@ -71,7 +71,7 @@ class MyGame
       end
 
     else
-      calc_animation(player,8,9,true)
+      calc_animation(player,8,3,true)
     end
 
     calc_animation(wolf,4,5,true)
