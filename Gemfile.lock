@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    pkg-config (1.5.1)
+    rmagick (5.2.0)
+      pkg-config (~> 1.4)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  rmagick
+
+BUNDLED WITH
+   2.4.1
