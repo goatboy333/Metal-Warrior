@@ -7,8 +7,6 @@ Current bugs to fix :
 
 - attempt to recalculate sprite sheet source_* to lessen the sprite size
 - Fix jump and attack
-- Fix constant attack problem (possible use the tick time for difference). the countdown method resets with every press. ie attacks dont register if yr next to a creature and hit attack fast.
-
 - Check duplication of keyboard.space X
 - Getting output.solids to be brought to foreground when backgrounds are added.  X
 - Change attack to single strike  X

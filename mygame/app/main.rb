@@ -60,7 +60,7 @@ class MyGame
           @hit = true
         end
 
-        if @hit == true && @attack_timer - 1 < 0
+        if @hit == true && @attack_timer <= 0
           @hit = false
         end
 
@@ -85,7 +85,7 @@ class MyGame
       player.source_y = player.action[:jump]
     end
 
-    if keyboard.space || keyboard.control
+    if (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
       player.source_y = player.action[:attack]
     end
