@@ -7,6 +7,5 @@ Current bugs to fix :
 
 - attempt to recalculate sprite sheet source_* to lessen the sprite size
 - Fix jump and attack
-- Check duplication of keyboard.space X
 - Getting output.solids to be brought to foreground when backgrounds are added.  X
 - Change attack to single strike  X
