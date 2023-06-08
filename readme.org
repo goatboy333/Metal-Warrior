@@ -5,6 +5,10 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
 Current bugs to fix :
 ---------------------
 
+- wolf to follow player
+- wolf to attack player
+- cut sprite sheets down and separate them into run, jump, attack, idle
+
 - attempt to recalculate sprite sheet source_* to lessen the sprite size
 - Fix jump and attack
 - Getting output.solids to be brought to foreground when backgrounds are added.  X
