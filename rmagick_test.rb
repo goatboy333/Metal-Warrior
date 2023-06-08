@@ -1,6 +1,6 @@
 require 'rmagick'
 
-sheet = Magick::Image.read("sheet.png").first
+sheet = Magick::Image.read("mygame/sprites/bladekeeper/spritesheets/metal_bladekeeper_FREE_v1.1_SpriteSheet_288x128.png").first
 width = sheet.columns
 height = sheet.rows
 
@@ -14,7 +14,7 @@ sheet.crop!(288 * index, 128 * (15-y), 288, 128)
 
 sheet.trim!
 
-# sheet.write("sheet_output.png")
+sheet.write("sheet_output.png")
 width = sheet.columns
 height = sheet.rows
 
