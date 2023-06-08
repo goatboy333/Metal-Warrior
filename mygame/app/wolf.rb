@@ -1,24 +1,23 @@
-class Wolf < Creature
+class Wolf
+  attr_sprite
+  attr_reader  :max_health
+  attr_accessor :health
 
-    def initialize(args)
-        super
-        @health = 20
-        @damage = 10
-        @speed = 8
-        @move = true
-        @count = 4
-        @hold_for = 5
-        @creature_hash = {
-            x: 70,
-            y: 50,
-            w: 50 * 3.5,
-            h: 32 * 3.5,
-            path: 'sprites/enemies/wolf.png',
-            source_x: 56,
-            source_y: 0,
-            source_w: 56,
-            source_h: 32,
-            flip_horizontally: false,
-          } 
-    end
+  def initialize(x,y)
+    @max_health = 100
+    @health = 100
+    @x = x
+    @y = y
+    @w = 50 * 3
+    @h = 32 * 3
+    @path = 'sprites/enemies/wolf.png'
+    @source_x = 56
+    @source_y = 0
+    @source_w = 56
+    @source_h = 32
+  end
+
+  def hit(damage)
+    @health -= damage
+  end
 end

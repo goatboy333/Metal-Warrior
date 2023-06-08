@@ -1,78 +1,25 @@
-class Player < Creature
+class Player
+  attr_sprite
+  attr_reader :action, :max_health
+  attr_accessor :health
 
-  attr_reader :flipped, :x
-
-  def initialize(args) 
-    super 
-    @count = 6
-    @move = false
-    @hero = true
-
-    @creature_hash = {
-        x: args.state.player.x,
-        y: args.state.player.y,
-        w: 100 * 2.5,
-        h: 74 * 2.5,
-        path: 'sprites/villager/Run/villager_run.png',
-        source_x: 100,
-        source_y: 0,
-        source_w: 100,
-        source_h: 74,
-        flip_horizontally: @flipped
-    }
+  def initialize(x, y)
+    @max_health = 100
+    @health = 100
+    @x = x
+    @y = y
+    @w = 288 * 2.5
+    @h = 128 * 2.5
+    # @path = 'sprites/villager/Run/villager_run.png'
+    @path ='/sprites/bladekeeper/spritesheets/metal_bladekeeper_FREE_v1.1_SpriteSheet_288x128.png'
+    @source_w = 288
+    @source_h = 128
+    @action = {idle: 15 * @source_h,
+               run: 14 * @source_h,
+               jump: 11 * @source_h,
+               attack: 6 * @source_h,
+               die: 0 * @source_h}
+    @source_x = 0
+    @source_y = @action[:idle]
   end
-
-  def check_keyboard(args)
-    bound(args,@creature_hash)
-    move_right(args)
-    move_left(args)
-    attack(args)
-  end
-
-  def bound(args,player)
-    player.x = player.x.greater(args.grid.left)
-    player.x = player.x.lesser(args.grid.right - player.w)
-    player.y = player.y.greater(args.grid.bottom)
-    player.y = player.y.lesser(args.grid.top - player.h)
-  end
-
-  def move_right(args)
-    if args.inputs.right
-      @creature_hash[:x] += 5
-      args.state.player.x =  @creature_hash[:x]
-      @creature_hash[:flip_horizontally] = false
-      @move = true
-    end  
-  end
-
-  def move_left(args)  
-    if args.inputs.left
-      @creature_hash[:x] -= 5
-      args.state.player.x =  @creature_hash[:x]
-      @creature_hash[:flip_horizontally] = true  
-      @move = true
-    end
-  end
-  
-  def attack(args)
-    if args.inputs.keyboard.control
-      throw_spear(args)
-    end
-  end
-
-  def throw_spear(args)
-    args.state.current_time = args.tick_count
-    
-    if args.state.current_time - args.state.previous_time > 3
-      args.state.number_of_spears += 1
-      args.state.weapon_spears << Spear.new(@creature_hash[:x],
-        @creature_hash[:y],
-        @creature_hash[:flip_horizontally])
-      args.state.previous_time = args.state.current_time
-    end
-    
-    args.state.previous_time = args.state.current_time
-  
-  end
-
 end
