@@ -15,9 +15,22 @@ class Wolf
     @source_y = 0
     @source_w = 56
     @source_h = 32
+    @flip_horizontally = false
   end
 
   def hit(damage)
     @health -= damage
+  end
+
+  def follow_player(player_x, player_w)
+    if @x > player_x + ((player_w / 2) + 30)
+      @x -= 5 #speed
+      @flip_horizontally = false
+    elsif @x < player_x + ((player_w / 2) - 200)
+      @x += 5
+      @flip_horizontally = true
+    #else
+    #  @x = @x
+    end
   end
 end

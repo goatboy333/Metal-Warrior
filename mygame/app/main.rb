@@ -28,6 +28,7 @@ class MyGame
 
   def tick
     handle_input
+    wolf.follow_player(player.x, player.w)
 
     player_rect = {x: player.x + (player.w / 2), y: player.y, w: 60, h: 50} # Select just the player, no transparency
 
