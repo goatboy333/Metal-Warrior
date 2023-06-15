@@ -35,8 +35,6 @@ class MyGame
     player_rect = {x: player.x, y: player.y, w: player.w, h: player.h} # Select just the player, no transparency
     unless player.health <= 0
 
-      player_rect = {x: player.x, y: player.y, w: 46, h: 50} # Select just the player, no transparency
-
       if @jump_timer > 0
         calc_animation(player,20,5,true)
         @jump_timer -= 1
@@ -138,7 +136,7 @@ class MyGame
         outputs.borders << sprite
         outputs.borders << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50, h: 10} if sprite.health > 0
         outputs.primitives << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}.solid if sprite.health > 0
-
+      end
     end
   end
 end
