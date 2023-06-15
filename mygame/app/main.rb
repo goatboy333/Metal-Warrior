@@ -129,7 +129,7 @@ class MyGame
   def render
 
     if player.health <= 0
-      outputs.labels << {x: 400, y: 400, text: "YOUR DEAD!", r: 255, size_enum: 40}
+      outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
     else
 
       [player,wolf].each do |sprite|
