@@ -23,4 +23,8 @@ class Player
     @source_x = 0
     @source_y = @action[:idle]
   end
+
+  def hit(damage)
+    @health -= damage
+  end
 end
