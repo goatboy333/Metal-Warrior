@@ -32,64 +32,67 @@ class MyGame
     handle_input
     wolf.follow_player(player.x, player.w)
 
-    player_rect = {x: player.x, y: player.y, w: 46, h: 50} # Select just the player, no transparency
+    unless player.health <= 0
 
-    if @jump_timer > 0
-      calc_animation(player,20,5,true)
-      @jump_timer -= 1
+      player_rect = {x: player.x, y: player.y, w: 46, h: 50} # Select just the player, no transparency
 
-      if @jump_timer > 30
-        player.source_y = player.source_y - 2
-      else
-        player.source_y = player.source_y + 2
-      end
+      if @jump_timer > 0
+        calc_animation(player,20,5,true)
+        @jump_timer -= 1
 
-      if player.flip_horizontally
-        player.source_x = player.source_x + 2
-      else
-        player.source_x = player.source_x - 2
-      end
-
-    elsif @attack_timer > 0
-      @attack_timer -= 1
-      calc_animation(player,6,3,true)
-
-      if args.geometry.intersect_rect?(player_rect, wolf)
-
-        if @hit == false
-          wolf.hit(20)
-          puts "HIT"
-          puts wolf.health
-          @hit = true
+        if @jump_timer > 30
+          player.source_y = player.source_y - 2
+        else
+          player.source_y = player.source_y + 2
         end
 
-        if @hit == true && @attack_timer <= 0
+        if player.flip_horizontally
+          player.source_x = player.source_x + 2
+        else
+          player.source_x = player.source_x - 2
+        end
+
+      elsif @attack_timer > 0
+        @attack_timer -= 1
+        calc_animation(player,6,3,true)
+
+        if args.geometry.intersect_rect?(player_rect, wolf)
+
+          if @hit == false
+            wolf.hit(20)
+            puts "HIT"
+            puts wolf.health
+            @hit = true
+          end
+
+          if @hit == true && @attack_timer <= 0
+            @hit = false
+          end
+
+        else
+
+          puts "NOT HIT"
           @hit = false
         end
 
-      else
+      elsif @wolf_hit == true && @wolf_attack_timer <= 0
+        @wolf_hit = false
+        @wolf_attack_timer = 0
 
-        puts "NOT HIT"
-        @hit = false
+      elsif args.geometry.intersect_rect?(player_rect, wolf) && @wolf_attack_timer > 0
+
+        player.hit(2)
+        puts "PLAYER HIT"
+        puts player.health
+        @wolf_hit = true
+        @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
+
+      else
+        calc_animation(player,6,3,true)
       end
 
-    elsif @wolf_hit == true && @wolf_attack_timer <= 0
-      @wolf_hit = false
-      @wolf_attack_timer = 0
-
-    elsif args.geometry.intersect_rect?(player_rect, wolf) && @wolf_attack_timer > 0
-
-      player.hit(2)
-      puts "PLAYER HIT"
-      puts player.health
-      @wolf_hit = true
-      @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
-
-    else
-      calc_animation(player,6,3,true)
+      calc_animation(wolf,4,5,true)
     end
-
-    calc_animation(wolf,4,5,true)
 
     render
   end
@@ -124,11 +127,17 @@ class MyGame
   end
 
   def render
-    [player,wolf].each do |sprite|
-      outputs.sprites << sprite if sprite.health > 0
-      outputs.borders << sprite
-      outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50, h: 10} if sprite.health > 0
-      outputs.primitives << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}.solid if sprite.health > 0
+
+    if player.health <= 0
+      outputs.labels << {x: 400, y: 400, text: "YOUR DEAD!", r: 255, size_enum: 40}
+    else
+
+      [player,wolf].each do |sprite|
+        outputs.sprites << sprite if sprite.health > 0
+        outputs.borders << sprite
+        outputs.borders << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50, h: 10} if sprite.health > 0
+        outputs.primitives << {x: sprite.x + (sprite.w / 2), y: sprite.h + 30, w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}.solid if sprite.health > 0
+      end
     end
   end
 end
