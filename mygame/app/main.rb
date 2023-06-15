@@ -32,7 +32,7 @@ class MyGame
     handle_input
     wolf.follow_player(player.x, player.w)
 
-    player_rect = {x: player.x + (player.w / 2), y: player.y, w: 60, h: 50} # Select just the player, no transparency
+    player_rect = {x: player.x, y: player.y, w: 46, h: 50} # Select just the player, no transparency
 
     if @jump_timer > 0
       calc_animation(player,20,5,true)
