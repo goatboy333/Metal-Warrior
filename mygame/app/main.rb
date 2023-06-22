@@ -32,7 +32,10 @@ class MyGame
 
   def tick
     handle_input
-    @wolf.follow_player(player.x, player.w)
+
+    @wolves.each do |wolf|
+      wolf.follow_player(player.x, player.w)
+    end
 
     player_rect = {x: player.x, y: player.y, w: player.w, h: player.h} # Select just the player, no transparency
     unless player.health <= 0
@@ -57,30 +60,34 @@ class MyGame
         @attack_timer -= 1
         calc_animation(player,6,3,true)
 
-        if args.geometry.intersect_rect?(player_rect, @wolf) &&
-            @wolf.health > 0 && player.health > 0
+        @wolves.each do |wolf|
+          if args.geometry.intersect_rect?(player_rect, wolf) &&
+              wolf.health > 0 && player.health > 0
 
-          if @hit == false
-            @wolf.hit(20)
-            puts "HIT"
-            puts @wolf.health
-            @hit = true
-          end
+            if @hit == false
+              wolf.hit(20)
+              puts "HIT"
+              puts wolf.health
+              @hit = true
+            end
 
-          if @hit == true && @attack_timer <= 0
+            if @hit == true && @attack_timer <= 0
+              @hit = false
+            end
+
+          else
+
+            puts "NOT HIT"
             @hit = false
           end
-
-        else
-
-          puts "NOT HIT"
-          @hit = false
         end
 
       elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
 
-      elsif args.geometry.intersect_rect?(player_rect, @wolf) &&
+      end
+
+      if args.geometry.intersect_rect?(player_rect, @wolf) && @attack_timer <= 0 &&
           @wolf_attack_timer > 0 && @wolf.health > 0 && player.health > 0
 
         player.hit(2)
@@ -88,10 +95,8 @@ class MyGame
         puts player.health
         @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
 
-      else
-        calc_animation(player,6,3,true)
       end
-
+      calc_animation(player,6,3,true)
       calc_animation(@wolf,4,5,true)
     end
 
