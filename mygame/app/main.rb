@@ -106,6 +106,7 @@ class MyGame
       @attack_timer = 18
       player.source_y = player.action[:attack][:sprite_sheet_height]
       player.source_x = player.action[:attack][:width]
+      player.w = player.action[:attack][:width] * 2.5
     end
 
     if @jump_timer == 0 && @attack_timer == 0
@@ -114,17 +115,20 @@ class MyGame
         player.flip_horizontally = true
         player.source_y = player.action[:run][:sprite_sheet_height]
         player.source_x = player.action[:run][:width]
+        player.w = player.action[:run][:width] * 2.5
       elsif keyboard.right
         player.x += 10
         player.flip_horizontally = false
         player.source_y = player.action[:run][:sprite_sheet_height]
         player.source_x = player.action[:run][:width]
+        player.w = player.action[:run][:width] * 2.5
         # elsif keyboard.down
         #   player.y -= 10
         #   player.source_y = player.action[:run]
       elsif @jump_timer == 0
         player.source_y = player.action[:idle][:sprite_sheet_height]
         player.source_x = player.action[:idle][:width]
+        player.w = player.action[:idle][:width] * 2.5
       end
     end
   end

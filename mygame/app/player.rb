@@ -8,12 +8,12 @@ class Player
     @health = 100
     @x = x
     @y = y
-    @w = 56 * 2.5
+    @w = @source_w * 2.5
     @h = 48 * 2.5
     # @path = 'sprites/villager/Run/villager_run.png'
     # @path ='/sprites/bladekeeper/spritesheets/metal_bladekeeper_FREE_v1.1_SpriteSheet_288x128.png'
     @path ='/sprites/bladekeeper/trimmed/idlerunattk.png'
-    @source_w = 47
+    @source_w = 56
     @source_h = 48
     @action = {idle: {width: 56, sprite_sheet_height: 0 * @source_h},
                run: {width: 60, sprite_sheet_height: 1 * @source_h} ,
