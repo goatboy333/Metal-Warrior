@@ -87,17 +87,20 @@ class MyGame
 
       end
 
-      if args.geometry.intersect_rect?(player_rect, @wolf) && @attack_timer <= 0 &&
-          @wolf_attack_timer > 0 && @wolf.health > 0 && player.health > 0
-
-        player.hit(2)
-        puts "PLAYER HIT"
-        puts player.health
-        @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
-
-      end
       calc_animation(player,6,3,true)
-      calc_animation(@wolf,4,5,true)
+
+      @wolves.each do |wolf|
+        if args.geometry.intersect_rect?(player_rect, wolf) && @attack_timer <= 0 &&
+            @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
+
+          player.hit(2)
+          puts "PLAYER HIT"
+          puts player.health
+          @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
+        end
+
+        calc_animation(wolf,4,5,true)
+      end
     end
 
     render
