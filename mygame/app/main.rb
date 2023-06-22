@@ -78,7 +78,8 @@ class MyGame
         @wolf_hit = false
         @wolf_attack_timer = 0
 
-      elsif args.geometry.intersect_rect?(player_rect, wolf) && @wolf_attack_timer > 0
+      elsif args.geometry.intersect_rect?(player_rect, wolf) &&
+          @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
 
         player.hit(2)
         puts "PLAYER HIT"
