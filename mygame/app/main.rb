@@ -14,7 +14,7 @@ class MyGame
 
   def initialize(args)
     @player = Player.new(args.grid.w / 4, 50)
-    @wolf    = Wolf.new(args.grid.w - 200, 50)
+    @wolf = Wolf.new(args.grid.w - 200, 50)
     @jump_timer=0
     @attack_timer=0
     @hit = false # temporary hit tracker to avoid multiple hits
@@ -25,7 +25,7 @@ class MyGame
   def calc_animation(obj,how_many,long,repeat)
     start_animation_on_tick = 0
     sprite_index = start_animation_on_tick.frame_index how_many, long, repeat
-    obj.source_x = obj.source_w * sprite_index
+    obj.source_x = obj.source_x * sprite_index
   end
 
   def tick
@@ -104,23 +104,27 @@ class MyGame
 
     if (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
-      player.source_y = player.action[:attack]
+      player.source_y = player.action[:attack][:sprite_sheet_height]
+      player.source_x = player.action[:attack][:width]
     end
 
     if @jump_timer == 0 && @attack_timer == 0
       if keyboard.left
         player.x -= 10
         player.flip_horizontally = true
-        player.source_y = player.action[:run]
+        player.source_y = player.action[:run][:sprite_sheet_height]
+        player.source_x = player.action[:run][:width]
       elsif keyboard.right
         player.x += 10
         player.flip_horizontally = false
-        player.source_y = player.action[:run]
+        player.source_y = player.action[:run][:sprite_sheet_height]
+        player.source_x = player.action[:run][:width]
         # elsif keyboard.down
         #   player.y -= 10
         #   player.source_y = player.action[:run]
       elsif @jump_timer == 0
-        player.source_y = player.action[:idle]
+        player.source_y = player.action[:idle][:sprite_sheet_height]
+        player.source_x = player.action[:idle][:width]
       end
     end
   end

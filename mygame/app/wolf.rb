@@ -1,6 +1,6 @@
 class Wolf
   attr_sprite
-  attr_reader  :max_health
+  attr_reader  :max_health, :action
   attr_accessor :health
 
   def initialize(x,y)
@@ -12,10 +12,15 @@ class Wolf
     @h = 32 * 3
     @path = 'sprites/enemies/wolf.png'
     @source_x = 56
-    @source_y = 0
+    #@source_y = 0
+    
     @source_w = 56
     @source_h = 32
     @flip_horizontally = false
+    @action = {idle: {width: 56, sprite_sheet_height: 0 * @source_h},
+               run: {width: 56, sprite_sheet_height: 0 * @source_h} ,
+               attack: {width: 56, sprite_sheet_height: 0 * @source_h}} 
+    @source_y = @action[:idle][:sprite_sheet_height]
   end
 
   def hit(damage)
