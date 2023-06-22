@@ -14,12 +14,14 @@ class MyGame
 
   def initialize(args)
     @player = Player.new(args.grid.w / 4, 50)
+
     @wolf    = Wolf.new(args.grid.w - 200, 50)
+    @wolves = [@wolf]
+    @wolf_attack_timer = 18
+
     @jump_timer=0
     @attack_timer=0
     @hit = false # temporary hit tracker to avoid multiple hits
-    @wolf_hit = false
-    @wolf_attack_timer = 18
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -75,8 +77,7 @@ class MyGame
           @hit = false
         end
 
-      elsif @wolf_hit == true && @wolf_attack_timer <= 0
-        @wolf_hit = false
+      elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
 
       elsif args.geometry.intersect_rect?(player_rect, wolf) &&
@@ -85,7 +86,6 @@ class MyGame
         player.hit(2)
         puts "PLAYER HIT"
         puts player.health
-        @wolf_hit = true
         @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
 
       else
