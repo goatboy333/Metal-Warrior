@@ -20,7 +20,6 @@ class MyGame
 
     @jump_timer=0
     @attack_timer=0
-    @hit = false # temporary hit tracker to avoid multiple hits
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -68,21 +67,21 @@ class MyGame
           if args.geometry.intersect_rect?(player_rect, wolf) &&
               wolf.health > 0 && player.health > 0
 
-            if @hit == false
+            if wolf.is_hit == false
               wolf.hit(20)
               puts "HIT"
               puts wolf.health
-              @hit = true
+              wolf.is_hit = true
             end
 
-            if @hit == true && @attack_timer <= 0
-              @hit = false
+            if wolf.is_hit == true && @attack_timer <= 0
+              wolf.is_hit = false
             end
 
           else
 
             puts "NOT HIT"
-            @hit = false
+            wolf.is_hit = false
           end
         end
 

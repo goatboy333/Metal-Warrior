@@ -1,7 +1,7 @@
 class Wolf
   attr_sprite
   attr_reader  :max_health
-  attr_accessor :health
+  attr_accessor :health, :is_hit, :timeout
 
   def initialize(x,y)
     @max_health = 100
@@ -16,6 +16,8 @@ class Wolf
     @source_w = 56
     @source_h = 32
     @flip_horizontally = false
+    @timeout = 0
+    @is_hit = false
   end
 
   def hit(damage)
