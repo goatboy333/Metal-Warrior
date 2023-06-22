@@ -10,7 +10,7 @@ require 'app/player.rb'
 
 class MyGame
   attr_gtk
-  attr_reader :player, :wolf
+  attr_reader :player
 
   def initialize(args)
     @player = Player.new(args.grid.w / 4, 50)
@@ -32,7 +32,7 @@ class MyGame
 
   def tick
     handle_input
-    wolf.follow_player(player.x, player.w)
+    @wolf.follow_player(player.x, player.w)
 
     player_rect = {x: player.x, y: player.y, w: player.w, h: player.h} # Select just the player, no transparency
     unless player.health <= 0
@@ -57,13 +57,13 @@ class MyGame
         @attack_timer -= 1
         calc_animation(player,6,3,true)
 
-        if args.geometry.intersect_rect?(player_rect, wolf) &&
-            wolf.health > 0 && player.health > 0
+        if args.geometry.intersect_rect?(player_rect, @wolf) &&
+            @wolf.health > 0 && player.health > 0
 
           if @hit == false
-            wolf.hit(20)
+            @wolf.hit(20)
             puts "HIT"
-            puts wolf.health
+            puts @wolf.health
             @hit = true
           end
 
@@ -80,8 +80,8 @@ class MyGame
       elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
 
-      elsif args.geometry.intersect_rect?(player_rect, wolf) &&
-          @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
+      elsif args.geometry.intersect_rect?(player_rect, @wolf) &&
+          @wolf_attack_timer > 0 && @wolf.health > 0 && player.health > 0
 
         player.hit(2)
         puts "PLAYER HIT"
@@ -92,7 +92,7 @@ class MyGame
         calc_animation(player,6,3,true)
       end
 
-      calc_animation(wolf,4,5,true)
+      calc_animation(@wolf,4,5,true)
     end
 
     render
@@ -133,7 +133,7 @@ class MyGame
       outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
     else
 
-      [player,wolf].each do |sprite|
+      [player,@wolf].each do |sprite|
         outputs.sprites << sprite if sprite.health > 0
         outputs.borders << sprite
         outputs.borders << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50, h: 10} if sprite.health > 0
