@@ -6,6 +6,9 @@
 Metal Warrior is a side scroller adventure game in which you start of as a villager and then your aim is to become a metal god!
 
 ** Current bugs to fix
+   :PROPERTIES:
+   :CREATED:  [2023-06-22 Thu 23:32]
+   :END:
 
  - [X] Wolf to follow player
  - [X] Wolf to attack player
@@ -14,12 +17,13 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
    - [X] attack,
    - [X] idle
  - [X] Stop wolf attacking after death
- - [ ] Fix vanish by using attack & run sprite sheets
- - [ ] Add extra wolves from both sides
+ - [X] Add extra wolves from both sides
+ - [ ] FIX: Attacking second wolf is instant death, it should be
+ - [ ] FIX: vanish by using attack & run sprite sheets
 
 ** Optional
 
 - [X] Getting output.solids to be brought to foreground when backgrounds are added.
 - [X] Change attack to single strike
-- [ ] Fix jump and attack
+- [ ] FIX: jump and attack
 - [ ] Fight after player death in Valhalla
