@@ -15,8 +15,7 @@ class MyGame
   def initialize(args)
     @player = Player.new(args.grid.w / 4, 50)
 
-    @wolf    = Wolf.new(args.grid.w - 200, 50)
-    @wolves = [@wolf]
+    @wolves = [ Wolf.new(args.grid.w - 200, 50) ]
     @wolf_attack_timer = 18
 
     @jump_timer=0
@@ -31,6 +30,11 @@ class MyGame
   end
 
   def tick
+
+    if args.state.tick_count / 60 == 5
+      @wolves << Wolf.new(0,50)
+    end
+
     handle_input
 
     @wolves.each do |wolf|
