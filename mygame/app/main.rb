@@ -141,7 +141,9 @@ class MyGame
       outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
     else
 
-      [player,@wolf].each do |sprite|
+      creatures = [player] + @wolves
+
+      creatures.each do |sprite|
         outputs.sprites << sprite if sprite.health > 0
         outputs.borders << sprite
         outputs.borders << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50, h: 10} if sprite.health > 0
