@@ -13,7 +13,7 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
    - [X] run,
    - [X] attack,
    - [X] idle
- - [ ] Stop wolf attacking after death
+ - [X] Stop wolf attacking after death
  - [ ] Fix vanish by using attack & run sprite sheets
  - [ ] Add extra wolves from both sides
 
