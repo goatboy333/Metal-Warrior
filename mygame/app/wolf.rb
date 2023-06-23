@@ -1,7 +1,7 @@
 class Wolf
   attr_sprite
   attr_reader  :max_health, :action
-  attr_accessor :health
+  attr_accessor :health, :is_hit, :timeout
 
   def initialize(x,y)
     @max_health = 100
@@ -17,10 +17,15 @@ class Wolf
     @source_w = 56
     @source_h = 32
     @flip_horizontally = false
+
     @action = {idle: {width: 56, sprite_sheet_height: 0 * @source_h},
                run: {width: 56, sprite_sheet_height: 0 * @source_h} ,
                attack: {width: 56, sprite_sheet_height: 0 * @source_h}} 
     @source_y = @action[:idle][:sprite_sheet_height]
+
+    @timeout = 0
+    @is_hit = false
+
   end
 
   def hit(damage)

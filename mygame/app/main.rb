@@ -10,16 +10,14 @@ require 'app/player.rb'
 
 class MyGame
   attr_gtk
-  attr_reader :player, :wolf
+  attr_reader :player
 
   def initialize(args)
     @player = Player.new(args.grid.w / 4, 50)
-    @wolf = Wolf.new(args.grid.w - 200, 50)
+    @wolves = [ Wolf.new(args.grid.w - 200, 50) ]
+    @wolf_attack_timer = 18
     @jump_timer=0
     @attack_timer=0
-    @hit = false # temporary hit tracker to avoid multiple hits
-    @wolf_hit = false
-    @wolf_attack_timer = 18
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -29,8 +27,16 @@ class MyGame
   end
 
   def tick
+
+    if args.state.tick_count / 60 == 5
+      @wolves << Wolf.new(0,50)
+    end
+
     handle_input
-    wolf.follow_player(player.x, player.w)
+
+    @wolves.each do |wolf|
+      wolf.follow_player(player.x, player.w)
+    end
 
     player_rect = {x: player.x, y: player.y, w: player.w, h: player.h} # Select just the player, no transparency
     unless player.health <= 0
@@ -55,42 +61,47 @@ class MyGame
         @attack_timer -= 1
         calc_animation(player,6,3,true)
 
-        if args.geometry.intersect_rect?(player_rect, wolf)
+        @wolves.each do |wolf|
+          if args.geometry.intersect_rect?(player_rect, wolf) &&
+              wolf.health > 0 && player.health > 0
 
-          if @hit == false
-            wolf.hit(20)
-            puts "HIT"
-            puts wolf.health
-            @hit = true
+            if wolf.is_hit == false
+              wolf.hit(20)
+              puts "HIT"
+              puts wolf.health
+              wolf.is_hit = true
+            end
+
+            if wolf.is_hit == true && @attack_timer <= 0
+              wolf.is_hit = false
+            end
+
+          else
+
+            puts "NOT HIT"
+            wolf.is_hit = false
           end
-
-          if @hit == true && @attack_timer <= 0
-            @hit = false
-          end
-
-        else
-
-          puts "NOT HIT"
-          @hit = false
         end
 
-      elsif @wolf_hit == true && @wolf_attack_timer <= 0
-        @wolf_hit = false
+      elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
 
-      elsif args.geometry.intersect_rect?(player_rect, wolf) && @wolf_attack_timer > 0
-
-        player.hit(2)
-        puts "PLAYER HIT"
-        puts player.health
-        @wolf_hit = true
-        @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
-
-      else
-        calc_animation(player,6,3,true)
       end
 
-      calc_animation(wolf,4,5,true)
+      calc_animation(player,6,3,true)
+
+      @wolves.each do |wolf|
+        if args.geometry.intersect_rect?(player_rect, wolf) && @attack_timer <= 0 &&
+            @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
+
+          player.hit(2)
+          puts "PLAYER HIT"
+          puts player.health
+          @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
+        end
+
+        calc_animation(wolf,4,5,true)
+      end
     end
 
     render
@@ -131,7 +142,9 @@ class MyGame
       outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
     else
 
-      [player,wolf].each do |sprite|
+      creatures = [player] + @wolves
+
+      creatures.each do |sprite|
         outputs.sprites << sprite if sprite.health > 0
         outputs.borders << sprite
         outputs.borders << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50, h: 10} if sprite.health > 0
