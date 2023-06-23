@@ -1,7 +1,7 @@
 class Player
   attr_sprite
   attr_reader :action, :max_health
-  attr_accessor :health
+  attr_accessor :health, :source_w, :source_x, :source_y, :w
 
   def initialize(x, y)
     @max_health = 100
@@ -23,6 +23,13 @@ class Player
                #die: 4 * @source_h}
     @source_x = 0
     @source_y = @action[:idle][:sprite_sheet_height]
+  end
+
+  def action_sprite_dimension(action)
+    @source_y = @action[action][:sprite_sheet_height]
+    @source_x = @action[action][:width]
+    @w = @action[action][:width] * 2.5
+    @source_w = @action[action][:width]
   end
 
   def hit(damage)

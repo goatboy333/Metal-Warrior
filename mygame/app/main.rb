@@ -30,7 +30,7 @@ class MyGame
 
   def tick
     handle_input
-    #wolf.follow_player(player.x, player.w)
+    wolf.follow_player(player.x, player.w)
 
     player_rect = {x: player.x, y: player.y, w: player.w, h: player.h} # Select just the player, no transparency
     unless player.health <= 0
@@ -104,35 +104,23 @@ class MyGame
 
     if (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
-      player.source_y = player.action[:attack][:sprite_sheet_height]
-      player.source_x = player.action[:attack][:width]
-      player.w = player.action[:attack][:width] * 2.5
-      player.source_w = player.action[:attack][:width]
+      player.action_sprite_dimension(:attack)
     end
 
     if @jump_timer == 0 && @attack_timer == 0
       if keyboard.left
         player.x -= 10
         player.flip_horizontally = true
-        player.source_y = player.action[:run][:sprite_sheet_height]
-        player.source_x = player.action[:run][:width]
-        player.w = player.action[:run][:width] * 2.5
-        player.source_w = player.action[:run][:width]
+        player.action_sprite_dimension(:run)
       elsif keyboard.right
         player.x += 10
         player.flip_horizontally = false
-        player.source_y = player.action[:run][:sprite_sheet_height]
-        player.source_x = player.action[:run][:width]
-        player.w = player.action[:run][:width] * 2.5
-        player.source_w = player.action[:run][:width]
+        player.action_sprite_dimension(:run)
         # elsif keyboard.down
         #   player.y -= 10
         #   player.source_y = player.action[:run]
       elsif @jump_timer == 0
-        player.source_y = player.action[:idle][:sprite_sheet_height]
-        player.source_x = player.action[:idle][:width]
-        player.w = player.action[:idle][:width] * 2.5
-        player.source_w = player.action[:idle][:width]
+        player.action_sprite_dimension(:idle)
       end
     end
   end
