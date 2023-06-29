@@ -32,6 +32,11 @@ class Wolf
     @health -= damage
   end
 
+  def dead()
+    @flip_vertically = true
+    @a = 50
+  end
+
   def follow_player(player_x, player_w)
     if @health > 0
       if @x > player_x + ((player_w / 2) + 30)
