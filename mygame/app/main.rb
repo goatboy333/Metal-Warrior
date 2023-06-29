@@ -23,7 +23,7 @@ class MyGame
   def calc_animation(obj,how_many,long,repeat)
     start_animation_on_tick = 0
     sprite_index = start_animation_on_tick.frame_index how_many, long, repeat
-    obj.source_x = obj.source_x * sprite_index
+    obj.source_x = obj.source_w * sprite_index
   end
 
   def tick
