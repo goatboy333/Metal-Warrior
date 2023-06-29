@@ -78,7 +78,7 @@ class MyGame
             if wolf.is_hit == false
               wolf.hit(20)
               args.outputs.sounds << "sounds/wolfbark.wav"
-              puts "HIT"
+              # puts "HIT"
               puts wolf.health
               wolf.is_hit = true
             end
@@ -90,7 +90,7 @@ class MyGame
 
           else
 
-            puts "NOT HIT"
+            # puts "NOT HIT"
             wolf.is_hit = false
           end
         end
