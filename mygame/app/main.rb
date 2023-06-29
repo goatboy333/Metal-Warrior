@@ -109,10 +109,10 @@ class MyGame
   end
 
   def handle_input
-    if keyboard.up && @jump_timer == 0
-      @jump_timer = 60
-      player.source_y = player.action[:jump]
-    end
+    # if keyboard.up && @jump_timer == 0
+    #   @jump_timer = 60
+    #   player.source_y = player.action[:jump]
+    # end
 
     if (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
