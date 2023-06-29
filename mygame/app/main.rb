@@ -111,7 +111,7 @@ class MyGame
           @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
         end
 
-        calc_animation(wolf,4,5,true)
+        calc_animation(wolf,4,5,true) unless wolf.health <= 0
       end
     end
 
