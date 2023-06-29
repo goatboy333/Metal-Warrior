@@ -120,6 +120,7 @@ class MyGame
     if (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
       player.action_sprite_dimension(:attack)
+      args.outputs.sounds << "sounds/sword.wav"
     end
 
     if @jump_timer == 0 && @attack_timer == 0
