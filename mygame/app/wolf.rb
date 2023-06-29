@@ -13,7 +13,9 @@ class Wolf
     @path = 'sprites/enemies/wolf.png'
     @source_x = 56
     #@source_y = 0
-    
+    @r = 255
+    @g = 255
+    @b = 255
     @source_w = 56
     @source_h = 32
     @flip_horizontally = false
