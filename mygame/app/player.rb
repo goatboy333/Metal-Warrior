@@ -6,6 +6,8 @@ class Player
   def initialize(x, y)
     @max_health = 100
     @health = 100
+    @source_w = 56
+    @source_h = 48
     @x = x
     @y = y
     @w = @source_w * 2.5
@@ -13,11 +15,9 @@ class Player
     # @path = 'sprites/villager/Run/villager_run.png'
     # @path ='/sprites/bladekeeper/spritesheets/metal_bladekeeper_FREE_v1.1_SpriteSheet_288x128.png'
     @path ='/sprites/bladekeeper/trimmed/idlerunattk.png'
-    @source_w = 56
-    @source_h = 48
     @action = {idle: {width: 56, sprite_sheet_height: 0 * @source_h},
                run: {width: 60, sprite_sheet_height: 1 * @source_h} ,
-               attack: {width: 100, sprite_sheet_height: 2 * @source_h}} 
+               attack: {width: 100, sprite_sheet_height: 2 * @source_h}}
                #,
                #jump: 11 * @source_h,
                #die: 4 * @source_h}
