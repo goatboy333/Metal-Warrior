@@ -147,8 +147,8 @@ class MyGame
 
       creatures.each do |sprite|
         outputs.sprites << sprite if sprite.health > 0
-        outputs.borders << sprite
-        outputs.borders << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50, h: 10} if sprite.health > 0
+        # outputs.borders << sprite
+        # outputs.borders << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50, h: 10} if sprite.health > 0
         outputs.primitives << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}.solid if sprite.health > 0
       end
     end
