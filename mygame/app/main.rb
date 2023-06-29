@@ -27,6 +27,7 @@ class MyGame
   end
 
   def tick
+    args.outputs.sounds << "sounds/surprise-impact.ogg"
 
     if args.state.tick_count / 60 == 5
       @wolves << Wolf.new(0,50)
