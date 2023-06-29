@@ -59,6 +59,8 @@ class MyGame
 
       elsif @attack_timer > 0
         @attack_timer -= 1
+        # object, frames, length, repeat
+        player.action_sprite_dimension(:attack)
         calc_animation(player,6,3,true)
 
         @wolves.each do |wolf|
