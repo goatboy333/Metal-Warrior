@@ -76,6 +76,7 @@ class MyGame
 
             if wolf.is_hit == true && @attack_timer <= 0
               wolf.is_hit = false
+              wolf.reset_wolf_color()
             end
 
           else

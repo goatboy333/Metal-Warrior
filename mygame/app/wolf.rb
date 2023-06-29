@@ -32,6 +32,15 @@ class Wolf
 
   def hit(damage)
     @health -= damage
+    @r = 255
+    @g = 0
+    @b = 0
+  end
+
+  def reset_wolf_color()
+    @r = 255
+    @g = 255
+    @b = 255
   end
 
   def follow_player(player_x, player_w)
