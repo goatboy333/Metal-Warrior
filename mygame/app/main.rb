@@ -79,7 +79,7 @@ class MyGame
               wolf.hit(20)
               args.outputs.sounds << "sounds/wolfbark.wav"
               # puts "HIT"
-              puts wolf.health
+              # puts wolf.health
               wolf.is_hit = true
             end
 
@@ -108,8 +108,8 @@ class MyGame
             @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
 
           player.hit(2)
-          puts "PLAYER HIT"
-          puts player.health
+          #puts "PLAYER HIT"
+          #puts player.health
           @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
         end
 
