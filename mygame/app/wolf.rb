@@ -43,15 +43,22 @@ class Wolf
     @b = 255
   end
 
+  def dead()
+    @flip_vertically = true
+    @a = 50
+  end
+
   def follow_player(player_x, player_w)
-    if @x > player_x + ((player_w / 2) + 30)
-      @x -= 5 #speed
-      @flip_horizontally = false
-    elsif @x < player_x + ((player_w / 2) - 200)
-      @x += 5
-      @flip_horizontally = true
-    #else
-    #  @x = @x
+    if @health > 0
+      if @x > player_x + ((player_w / 2) + 30)
+        @x -= 5 #speed
+        @flip_horizontally = false
+      elsif @x < player_x + ((player_w / 2) - 200)
+        @x += 5
+        @flip_horizontally = true
+        #else
+        #  @x = @x
+      end
     end
   end
 end

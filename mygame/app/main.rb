@@ -27,9 +27,17 @@ class MyGame
   end
 
   def tick
+    contents = args.gtk.read_file "config"
+    args.outputs.sounds << "sounds/surprise-impact.ogg" unless contents == "music=false"
 
-    if args.state.tick_count / 60 == 5
-      @wolves << Wolf.new(0,50)
+    if (args.state.tick_count / 60) % Math.rand(8) == 0
+      direction = Math.rand(2)
+
+      if direction == 0
+        @wolves << Wolf.new(0,50)
+      else
+        @wolves << Wolf.new(args.grid.w - 200,50)
+      end
     end
 
     handle_input
@@ -105,7 +113,7 @@ class MyGame
           @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
         end
 
-        calc_animation(wolf,4,5,true)
+        calc_animation(wolf,4,5,true) unless wolf.health <= 0
       end
     end
 
@@ -151,7 +159,8 @@ class MyGame
       creatures = [player] + @wolves
 
       creatures.each do |sprite|
-        outputs.sprites << sprite if sprite.health > 0
+        sprite.dead if sprite.health <= 0
+        outputs.sprites << sprite
         # outputs.borders << sprite
         # outputs.borders << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50, h: 10} if sprite.health > 0
         outputs.primitives << {x: sprite.x + (sprite.w / 3), y: sprite.y + (sprite.h + 10), w: 50 * (sprite.health / sprite.max_health), h: 10, r: 255, g: 255, b:0, a: 255}.solid if sprite.health > 0
