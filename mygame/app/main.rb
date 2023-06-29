@@ -86,9 +86,10 @@ class MyGame
       elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
 
+      else
+        calc_animation(player,6,3,true)
       end
 
-      calc_animation(player,6,3,true)
 
       @wolves.each do |wolf|
         if args.geometry.intersect_rect?(player_rect, wolf) && @attack_timer <= 0 &&
