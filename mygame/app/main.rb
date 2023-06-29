@@ -27,9 +27,10 @@ class MyGame
   end
 
   def tick
-    args.outputs.sounds << "sounds/surprise-impact.ogg"
+    contents = args.gtk.read_file "config"
+    args.outputs.sounds << "sounds/surprise-impact.ogg" unless contents == "music=false"
 
-    if args.state.tick_count / 60 == 5
+    if (args.state.tick_count / 60) % 5 == 0
       @wolves << Wolf.new(0,50)
     end
 
