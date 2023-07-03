@@ -145,7 +145,7 @@ class MyGame
 
     if (keyboard.alt) and @lightning_timer <= 0
       @lightning_timer = 30
-      
+      args.outputs.sounds << "sounds/thunder.wav"
       #trigger_lightning()
         
     end
