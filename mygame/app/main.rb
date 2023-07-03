@@ -32,13 +32,16 @@ class MyGame
     contents = args.gtk.read_file "config.sample"
     args.outputs.sounds << "sounds/surprise-impact.ogg" unless contents == "music=false"
 
-    if (args.state.tick_count / 60) % Math.rand(8) == 0
-      direction = Math.rand(2)
+    if @lightning_timer <= 0
 
-      if direction == 0
-        @wolves << Wolf.new(0,50)
-      else
-        @wolves << Wolf.new(args.grid.w - 200,50)
+      if (args.state.tick_count / 60) % Math.rand(8) == 0
+        direction = Math.rand(2)
+
+        if direction == 0
+          @wolves << Wolf.new(0,50)
+        else
+          @wolves << Wolf.new(args.grid.w - 200,50)
+        end
       end
     end
 
