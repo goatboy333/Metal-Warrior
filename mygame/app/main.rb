@@ -132,6 +132,10 @@ class MyGame
       args.outputs.sounds << "sounds/sword.wav"
     end
 
+    if (keyboard.alt)
+      trigger_lightning()
+    end
+
     if @jump_timer == 0 && @attack_timer == 0
       if keyboard.left
         player.x -= 10
@@ -167,6 +171,12 @@ class MyGame
       end
     end
   end
+end
+
+def trigger_lightning()
+  @wolves.each do |wolf|
+    outputs.sprites << {x: wolf.x - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: 0, source_y: 0,}
+  end  
 end
 
 def tick args
