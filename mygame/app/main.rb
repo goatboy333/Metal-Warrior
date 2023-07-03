@@ -20,6 +20,7 @@ class MyGame
     @attack_timer=0
     @lightning_timer=0
     @wolves_x_array = []
+    @dead_wolves = 0
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -44,6 +45,8 @@ class MyGame
         end
       end
     end
+
+    dead_wolves_counter
 
     handle_input
 
@@ -209,6 +212,17 @@ def trigger_lightning()
     outputs.sprites << {x: wolf - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: lightning_source_x, source_y: 0,}
   end
     
+end
+
+def dead_wolves_counter
+  @wolves.each do |wolves|
+    if wolves.health <= 0
+      @dead_wolves += 1
+    end
+  end
+
+     puts @dead_wolves
+     @dead_wolves = 0
 end
 
 def tick args
