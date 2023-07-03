@@ -18,6 +18,8 @@ class MyGame
     @wolf_attack_timer = 18
     @jump_timer=0
     @attack_timer=0
+    @lightning_timer=0
+    @wolves_x_array = []
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -102,6 +104,7 @@ class MyGame
         trigger_lightning
       elsif @lightning_timer <= 0
         @lightning_timer = 0
+        @wolves_x_array.clear
 
       else
         calc_animation(player,6,3,true)
@@ -137,8 +140,9 @@ class MyGame
       args.outputs.sounds << "sounds/sword.wav"
     end
 
-    if (keyboard.alt)
+    if (keyboard.alt) and @lightning_timer <= 0
       @lightning_timer = 30
+      
       #trigger_lightning()
         
     end
@@ -184,17 +188,24 @@ def trigger_lightning()
 
   @lightning_timer -= 1
   lightning_source_x = 0
-  sprite_index = 0
+  sprite_index1 = 0
+  
 
-  @wolves.each do |wolf|
-    if wolf.health > 0
-      start_animation_on_tick = 0
-      sprite_index = start_animation_on_tick.frame_index(4, 3, true)
-      lightning_source_x = 700 * sprite_index
-      outputs.sprites << {x: wolf.x - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: lightning_source_x, source_y: 0,}
-    #wolf.health = -1
+  @wolves.each do |wolf_health|
+    if (wolf_health.health > 0)
+        @wolves_x_array << wolf_health.x
+        wolf_health.health = -1
+        #puts @wolves_x_array
     end
-  end  
+  end
+
+  @wolves_x_array.each do |wolf|
+    start_animation_on_tick1 = 0
+    sprite_index1 = start_animation_on_tick1.frame_index(4, 3, true)
+    lightning_source_x = 700 * sprite_index1
+    outputs.sprites << {x: wolf - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: lightning_source_x, source_y: 0,}
+  end
+    
 end
 
 def tick args
