@@ -21,6 +21,7 @@ class MyGame
     @lightning_timer=0
     @wolves_x_array = []
     @dead_wolves = 0
+    @dead_wolves_counter = 0
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -173,6 +174,8 @@ class MyGame
 
   def render
 
+    outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
+
     if player.health <= 0
       outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
     else
@@ -221,7 +224,8 @@ def dead_wolves_counter
     end
   end
 
-     puts @dead_wolves
+     #puts @dead_wolves
+     @dead_wolves_counter = @dead_wolves
      @dead_wolves = 0
 end
 
