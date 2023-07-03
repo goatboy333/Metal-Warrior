@@ -147,7 +147,7 @@ class MyGame
       args.outputs.sounds << "sounds/sword.wav"
     end
 
-    if (keyboard.alt) and @lightning_timer <= 0
+    if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter % 5 == 0 and @dead_wolves_counter !=0)
       @lightning_timer = 30
       args.outputs.sounds << "sounds/thunder.wav"
       #trigger_lightning()
