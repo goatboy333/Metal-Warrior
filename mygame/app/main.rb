@@ -27,7 +27,7 @@ class MyGame
   end
 
   def tick
-    contents = args.gtk.read_file "config"
+    contents = args.gtk.read_file "config.sample"
     args.outputs.sounds << "sounds/surprise-impact.ogg" unless contents == "music=false"
 
     if (args.state.tick_count / 60) % Math.rand(8) == 0
@@ -97,6 +97,11 @@ class MyGame
 
       elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
+      
+      elsif @lightning_timer > 0
+        trigger_lightning
+      elsif @lightning_timer <= 0
+        @lightning_timer = 0
 
       else
         calc_animation(player,6,3,true)
@@ -133,7 +138,9 @@ class MyGame
     end
 
     if (keyboard.alt)
-      trigger_lightning()
+      @lightning_timer = 30
+      #trigger_lightning()
+        
     end
 
     if @jump_timer == 0 && @attack_timer == 0
@@ -174,10 +181,18 @@ class MyGame
 end
 
 def trigger_lightning()
+
+  @lightning_timer -= 1
+  lightning_source_x = 0
+  sprite_index = 0
+
   @wolves.each do |wolf|
-    if (wolf.health > 0)
-    outputs.sprites << {x: wolf.x - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: 0, source_y: 0,}
-    else
+    if wolf.health > 0
+      start_animation_on_tick = 0
+      sprite_index = start_animation_on_tick.frame_index(4, 3, true)
+      lightning_source_x = 700 * sprite_index
+      outputs.sprites << {x: wolf.x - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: lightning_source_x, source_y: 0,}
+    #wolf.health = -1
     end
   end  
 end
