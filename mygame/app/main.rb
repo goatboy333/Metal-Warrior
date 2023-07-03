@@ -175,7 +175,10 @@ end
 
 def trigger_lightning()
   @wolves.each do |wolf|
+    if (wolf.health > 0)
     outputs.sprites << {x: wolf.x - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: 0, source_y: 0,}
+    else
+    end
   end  
 end
 
