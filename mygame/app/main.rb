@@ -22,6 +22,7 @@ class MyGame
     @wolves_x_array = []
     @dead_wolves = 0
     @dead_wolves_counter = 0
+    @previous_dead_wolves_count = 0
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -109,6 +110,7 @@ class MyGame
       
       elsif @lightning_timer > 0
         trigger_lightning
+
       elsif @lightning_timer <= 0
         @lightning_timer = 0
         @wolves_x_array.clear
@@ -148,8 +150,9 @@ class MyGame
       args.outputs.sounds << "sounds/sword.wav"
     end
 
-    if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter % 5 == 0 and @dead_wolves_counter !=0)
+    if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter - @previous_dead_wolves_count > 5)
       @lightning_timer = 30
+      @previous_dead_wolves_count = @dead_wolves_counter
       args.outputs.sounds << "sounds/thunder.wav"
       #trigger_lightning()
         
