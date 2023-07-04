@@ -112,7 +112,8 @@ class MyGame
       elsif @lightning_timer <= 0
         @lightning_timer = 0
         @wolves_x_array.clear
-
+        calc_animation(player,6,3,true)
+        
       else
         calc_animation(player,6,3,true)
       end
