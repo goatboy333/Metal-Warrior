@@ -86,7 +86,24 @@ class MyGame
         player.action_sprite_dimension(:attack)
         calc_animation(player,6,3,true)
 
-        @wolves.each do |wolf|
+        @wolves_shortlist = @wolves.select { |wolf|
+          if player.flip_horizontally == false
+            if wolf.x > (player.x + player.w)
+              true
+            else
+              false
+            end
+
+          else
+             if wolf.x < (player.x)
+              true
+            else
+              false
+            end 
+          end
+          }
+
+        @wolves_shortlist.each do |wolf|
           if args.geometry.intersect_rect?(player_rect, wolf) &&
               wolf.health > 0 && player.health > 0
 
