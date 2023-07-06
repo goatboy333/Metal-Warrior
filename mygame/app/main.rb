@@ -23,6 +23,10 @@ class MyGame
     @dead_wolves = 0
     @dead_wolves_counter = 0
     @previous_dead_wolves_count = 0
+
+    @game_end = false
+    @game_timer = Time.now
+    @game_length_seconds = 2
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -183,10 +187,18 @@ class MyGame
 
   def render
 
-    outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
-    outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
+    time_left = @game_length_seconds - (args.state.tick_count / 60).to_i
+    time_left = 0 if time_left < 0
+    outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
 
-    if player.health <= 0
+    # outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
+    # outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
+
+    if ((args.state.tick_count / 60).to_i) == @game_length_seconds or @game_end
+      outputs.labels << {x: 400, y: 400, text: "GAME OVER!", r: 255, size_enum: 40}
+      @game_end = true
+
+    elsif player.health <= 0
       outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
     else
 
