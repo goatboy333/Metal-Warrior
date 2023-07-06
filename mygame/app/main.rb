@@ -49,6 +49,11 @@ class MyGame
     end
 
     dead_wolves_counter
+    
+    if (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
+      outputs.sprites << {x: player.x + (player.w / 3), y: player.y + (player.h + 10), w: 80, h: 80,
+        path: 'sprites/lightning_icon.png', source_h: 500, source_w: 500, source_x: 0, source_y: 0,}
+      end
 
     handle_input
 
@@ -150,7 +155,7 @@ class MyGame
       args.outputs.sounds << "sounds/sword.wav"
     end
 
-    if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter - @previous_dead_wolves_count > 5)
+    if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
       @lightning_timer = 30
       @previous_dead_wolves_count = @dead_wolves_counter
       args.outputs.sounds << "sounds/thunder.wav"
@@ -179,6 +184,7 @@ class MyGame
   def render
 
     outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
+    outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
 
     if player.health <= 0
       outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
