@@ -168,10 +168,17 @@ class MyGame
         player.x -= 10
         player.flip_horizontally = true
         player.action_sprite_dimension(:run)
+        if player.x <= (grid.left + 10)
+          player.x = (grid.left + 10)
+        end
+
       elsif keyboard.right
         player.x += 10
         player.flip_horizontally = false
         player.action_sprite_dimension(:run)
+        if (player.x + player.w) >= (grid.right - 10)
+          player.x = ((grid.right - player.w) - 10)
+        end
         # elsif keyboard.down
         #   player.y -= 10
         #   player.source_y = player.action[:run]
