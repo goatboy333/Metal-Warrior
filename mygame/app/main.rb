@@ -36,6 +36,21 @@ class MyGame
   end
 
   def tick
+    if @game_end
+      if @player.health <= 0
+        # loser
+        # Display 'you suck'
+      else
+        # winner
+        # display valhalla, automatic walk the champ into the hall.
+      end
+    else
+      # keep player
+      background args
+      middleground args
+      foreground args
+    end
+
     contents = args.gtk.read_file "config"
     args.outputs.sounds << "sounds/surprise-impact.ogg" unless contents == "music=false"
 
@@ -252,9 +267,6 @@ def dead_wolves_counter
 end
 
 def tick args
-  $my_game.background args
-  $my_game.middleground args
-  $my_game.foreground args
 
   $my_game ||= MyGame.new(args)
   $my_game.args = args
