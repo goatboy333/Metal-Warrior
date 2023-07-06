@@ -49,11 +49,11 @@ class MyGame
     end
 
     dead_wolves_counter
-    
+
     if (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
       outputs.sprites << {x: player.x + (player.w / 3), y: player.y + (player.h + 10), w: 80, h: 80,
-        path: 'sprites/lightning_icon.png', source_h: 500, source_w: 500, source_x: 0, source_y: 0,}
-      end
+                          path: 'sprites/lightning_icon.png', source_h: 500, source_w: 500, source_x: 0, source_y: 0,}
+    end
 
     handle_input
 
@@ -112,7 +112,7 @@ class MyGame
 
       elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
-      
+
       elsif @lightning_timer > 0
         trigger_lightning
 
@@ -120,7 +120,7 @@ class MyGame
         @lightning_timer = 0
         @wolves_x_array.clear
         calc_animation(player,6,3,true)
-        
+
       else
         calc_animation(player,6,3,true)
       end
@@ -160,7 +160,7 @@ class MyGame
       @previous_dead_wolves_count = @dead_wolves_counter
       args.outputs.sounds << "sounds/thunder.wav"
       #trigger_lightning()
-        
+
     end
 
     if @jump_timer == 0 && @attack_timer == 0
@@ -208,13 +208,13 @@ def trigger_lightning()
   @lightning_timer -= 1
   lightning_source_x = 0
   sprite_index1 = 0
-  
+
 
   @wolves.each do |wolf_health|
     if (wolf_health.health > 0)
-        @wolves_x_array << wolf_health.x
-        wolf_health.health = -1
-        #puts @wolves_x_array
+      @wolves_x_array << wolf_health.x
+      wolf_health.health = -1
+      #puts @wolves_x_array
     end
   end
 
@@ -224,7 +224,7 @@ def trigger_lightning()
     lightning_source_x = 700 * sprite_index1
     outputs.sprites << {x: wolf - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: lightning_source_x, source_y: 0,}
   end
-    
+
 end
 
 def dead_wolves_counter
@@ -234,9 +234,9 @@ def dead_wolves_counter
     end
   end
 
-     #puts @dead_wolves
-     @dead_wolves_counter = @dead_wolves
-     @dead_wolves = 0
+  #puts @dead_wolves
+  @dead_wolves_counter = @dead_wolves
+  @dead_wolves = 0
 end
 
 def tick args
