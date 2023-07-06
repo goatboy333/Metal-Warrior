@@ -32,3 +32,4 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
 - [X] Change attack to single strike
 - [X] FIX: jump and attack = N/A
 - [X] Fight after player death in Valhalla = N/A
+- [ ] Wolves move back when hit
