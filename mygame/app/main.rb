@@ -26,7 +26,7 @@ class MyGame
 
     @game_end = false
     @game_timer = Time.now
-    @game_length_seconds = 2
+    @game_length_seconds = 60
   end
 
   def calc_animation(obj,how_many,long,repeat)
