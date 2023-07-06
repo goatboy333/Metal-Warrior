@@ -25,6 +25,7 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
  - [ ] Wolves should attack
  - [ ] Attack direction should be applied to the wolf attack
  - [ ] Build the ending
+ - [ ] Upload to inch.io
 
 ** Optional
 
