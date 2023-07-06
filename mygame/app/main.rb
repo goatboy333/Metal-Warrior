@@ -32,7 +32,7 @@ class MyGame
   end
 
   def tick
-    contents = args.gtk.read_file "config.sample"
+    contents = args.gtk.read_file "config"
     args.outputs.sounds << "sounds/surprise-impact.ogg" unless contents == "music=false"
 
     if @lightning_timer <= 0
