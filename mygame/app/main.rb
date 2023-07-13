@@ -19,10 +19,21 @@ class MyGame
     @jump_timer=0
     @attack_timer=0
     @lightning_timer=0
+
+    @game_ending_timer=60
+
     @wolves_x_array = []
     @dead_wolves = 0
     @dead_wolves_counter = 0
     @previous_dead_wolves_count = 0
+
+    @game_end = false
+    @game_timer = Time.now
+    @game_length_seconds = 60
+
+    contents = args.gtk.read_file "config"
+    @sound = contents.split("\n").first
+
   end
 
   def calc_animation(obj,how_many,long,repeat)
@@ -32,8 +43,33 @@ class MyGame
   end
 
   def tick
-    contents = args.gtk.read_file "config"
-    args.outputs.sounds << "sounds/surprise-impact.ogg" unless contents == "music=false"
+    if @game_end
+      if @player.health <= 0
+        # loser
+        # Display 'you suck'
+      else
+        # winner
+        # display valhalla, automatic walk the champ into the hall.
+
+        args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/Walhalla_(1896)_by_Max_Brückner.jpg']
+
+        # Enlarge her
+
+        # Move the player towards the hall
+
+        # Shrink her as she gets close
+
+
+      end
+    else
+      # keep player
+      background args
+      middleground args
+      foreground args
+    end
+
+    args.outputs.sounds << "sounds/surprise-impact.ogg" unless @sound == "sound=false"
+
 
     if @lightning_timer <= 0
 
@@ -49,11 +85,11 @@ class MyGame
     end
 
     dead_wolves_counter
-    
+
     if (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
       outputs.sprites << {x: player.x + (player.w / 3), y: player.y + (player.h + 10), w: 80, h: 80,
-        path: 'sprites/lightning_icon.png', source_h: 500, source_w: 500, source_x: 0, source_y: 0,}
-      end
+                          path: 'sprites/lightning_icon.png', source_h: 500, source_w: 500, source_x: 0, source_y: 0,}
+    end
 
     handle_input
 
@@ -112,7 +148,7 @@ class MyGame
 
             if wolf.is_hit == false
               wolf.hit(20)
-              args.outputs.sounds << "sounds/wolfbark.wav"
+              args.outputs.sounds << "sounds/wolfbark.wav" unless @sound == "sound=false"
               # puts "HIT"
               # puts wolf.health
               wolf.is_hit = true
@@ -132,7 +168,7 @@ class MyGame
 
       elsif @wolf_attack_timer <= 0
         @wolf_attack_timer = 0
-      
+
       elsif @lightning_timer > 0
         trigger_lightning
 
@@ -140,7 +176,7 @@ class MyGame
         @lightning_timer = 0
         @wolves_x_array.clear
         calc_animation(player,6,3,true)
-        
+
       else
         calc_animation(player,6,3,true)
       end
@@ -172,18 +208,18 @@ class MyGame
     if (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
       player.action_sprite_dimension(:attack)
-      args.outputs.sounds << "sounds/sword.wav"
+      args.outputs.sounds << "sounds/sword.wav" unless @sound == "sound=false"
     end
 
     if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
       @lightning_timer = 30
       @previous_dead_wolves_count = @dead_wolves_counter
-      args.outputs.sounds << "sounds/thunder.wav"
+      args.outputs.sounds << "sounds/thunder.wav" unless @sound == "sound=false"
       #trigger_lightning()
-        
+
     end
 
-    if @jump_timer == 0 && @attack_timer == 0
+    if @jump_timer == 0 && @attack_timer == 0 && @game_end != true
       if keyboard.left
         player.x -= 10
         player.flip_horizontally = true
@@ -210,10 +246,21 @@ class MyGame
 
   def render
 
-    outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
-    outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
+    time_left = @game_length_seconds - (args.state.tick_count / 60).to_i
+    time_left = 0 if time_left < 0
+    outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
 
-    if player.health <= 0
+    # outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
+    # outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
+
+    if ((args.state.tick_count / 60).to_i) == @game_length_seconds or @game_end
+      outputs.labels << {x: 120, y: 500, text: "YOU FOUGHT A GLORIOUS BATTLE", r: 255, size_enum: 30}
+      outputs.labels << {x: 350, y: 350, text: "WELCOME TO WALHALLA", r: 255, size_enum: 20}
+
+      outputs.sprites << player
+      @game_end = true
+
+    elsif player.health <= 0
       outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
     else
 
@@ -235,13 +282,13 @@ def trigger_lightning()
   @lightning_timer -= 1
   lightning_source_x = 0
   sprite_index1 = 0
-  
+
 
   @wolves.each do |wolf_health|
     if (wolf_health.health > 0)
-        @wolves_x_array << wolf_health.x
-        wolf_health.health = -1
-        #puts @wolves_x_array
+      @wolves_x_array << wolf_health.x
+      wolf_health.health = -1
+      #puts @wolves_x_array
     end
   end
 
@@ -251,7 +298,7 @@ def trigger_lightning()
     lightning_source_x = 700 * sprite_index1
     outputs.sprites << {x: wolf - 280, y: 10, w: 700, h: 700, path: 'sprites/lightningbolt.png', source_h: 700, source_w: 700, source_x: lightning_source_x, source_y: 0,}
   end
-    
+
 end
 
 def dead_wolves_counter
@@ -261,15 +308,12 @@ def dead_wolves_counter
     end
   end
 
-     #puts @dead_wolves
-     @dead_wolves_counter = @dead_wolves
-     @dead_wolves = 0
+  #puts @dead_wolves
+  @dead_wolves_counter = @dead_wolves
+  @dead_wolves = 0
 end
 
 def tick args
-  $my_game.background args
-  $my_game.middleground args
-  $my_game.foreground args
 
   $my_game ||= MyGame.new(args)
   $my_game.args = args
