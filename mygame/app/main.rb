@@ -29,7 +29,7 @@ class MyGame
 
     @game_end = false
     @game_timer = Time.now
-    @game_length_seconds = 1
+    @game_length_seconds = 60
 
     contents = args.gtk.read_file "config"
     @sound = contents.split("\n").first
@@ -104,139 +104,139 @@ class MyGame
       background args
       middleground args
       foreground args
-    end
 
-    args.outputs.sounds << "sounds/surprise-impact.ogg" unless @sound == "sound=false"
-
-
-    if @lightning_timer <= 0
-
-      if (args.state.tick_count / 60) % Math.rand(8) == 0
-        direction = Math.rand(2)
-
-        if direction == 0
-          @wolves << Wolf.new(0,50)
-        else
-          @wolves << Wolf.new(args.grid.w - 200,50)
-        end
-      end
-    end
-
-    dead_wolves_counter
-
-    if (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
-      outputs.sprites << {x: player.x + (player.w / 3), y: player.y + (player.h + 10), w: 80, h: 80,
-                          path: 'sprites/lightning_icon.png', source_h: 500, source_w: 500, source_x: 0, source_y: 0,}
-    end
-
-    handle_input
-
-    @wolves.each do |wolf|
-      wolf.follow_player(player.x, player.w)
-    end
-
-    player_rect = {x: player.x, y: player.y, w: player.w, h: player.h} # Select just the player, no transparency
-    unless player.health <= 0
-
-      if @jump_timer > 0
-        calc_animation(player,20,5,true)
-        @jump_timer -= 1
-
-        if @jump_timer > 30
-          player.source_y = player.source_y - 2
-        else
-          player.source_y = player.source_y + 2
-        end
-
-        if player.flip_horizontally
-          player.source_x = player.source_x + 2
-        else
-          player.source_x = player.source_x - 2
-        end
-
-      elsif @attack_timer > 0
-        @attack_timer -= 1
-        # object, frames, length, repeat
-        player.action_sprite_dimension(:attack)
-        calc_animation(player,6,3,true)
-
-        if player.flip_horizontally == false
-          @wolves_shortlist = @wolves.select { |wolf|
-            if wolf.x >= (player.x)
-              true
-            else
-              false
-            end
-          }
-
-        elsif player.flip_horizontally == true
-          @wolves_shortlist = @wolves.select { |wolf|
-            if (wolf.x + wolf.w) <= (player.x + player.w)
-              true
-            else
-              false
-            end 
-          }
-
-        end
+      args.outputs.sounds << "sounds/surprise-impact.ogg" unless @sound == "sound=false"
 
 
-          
+      if @lightning_timer <= 0
 
-        @wolves_shortlist.each do |wolf|
-          if args.geometry.intersect_rect?(player_rect, wolf) &&
-              wolf.health > 0 && player.health > 0
+        if (args.state.tick_count / 60) % Math.rand(8) == 0
+          direction = Math.rand(2)
 
-            if wolf.is_hit == false
-              wolf.hit(20)
-              args.outputs.sounds << "sounds/wolfbark.wav" unless @sound == "sound=false"
-              # puts "HIT"
-              # puts wolf.health
-              wolf.is_hit = true
-            end
-
-            if wolf.is_hit == true && @attack_timer <= 0
-              wolf.is_hit = false
-              wolf.reset_wolf_color()
-            end
-
+          if direction == 0
+            @wolves << Wolf.new(0,50)
           else
-
-            # puts "NOT HIT"
-            wolf.is_hit = false
+            @wolves << Wolf.new(args.grid.w - 200,50)
           end
         end
-
-      elsif @wolf_attack_timer <= 0
-        @wolf_attack_timer = 0
-
-      elsif @lightning_timer > 0
-        trigger_lightning
-
-      elsif @lightning_timer <= 0
-        @lightning_timer = 0
-        @wolves_x_array.clear
-        calc_animation(player,6,3,true)
-
-      else
-        calc_animation(player,6,3,true)
       end
 
+      dead_wolves_counter
+
+      if (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
+        outputs.sprites << {x: player.x + (player.w / 3), y: player.y + (player.h + 10), w: 80, h: 80,
+                            path: 'sprites/lightning_icon.png', source_h: 500, source_w: 500, source_x: 0, source_y: 0,}
+      end
+
+      handle_input
 
       @wolves.each do |wolf|
-        if args.geometry.intersect_rect?(player_rect, wolf) && @attack_timer <= 0 &&
-            @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
+        wolf.follow_player(player.x, player.w)
+      end
 
-          player.hit(2)
-          #puts "PLAYER HIT"
-          #puts player.health
-          @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
+      player_rect = {x: player.x, y: player.y, w: player.w, h: player.h} # Select just the player, no transparency
+      unless player.health <= 0
+
+        if @jump_timer > 0
+          calc_animation(player,20,5,true)
+          @jump_timer -= 1
+
+          if @jump_timer > 30
+            player.source_y = player.source_y - 2
+          else
+            player.source_y = player.source_y + 2
+          end
+
+          if player.flip_horizontally
+            player.source_x = player.source_x + 2
+          else
+            player.source_x = player.source_x - 2
+          end
+
+        elsif @attack_timer > 0
+          @attack_timer -= 1
+          # object, frames, length, repeat
+          player.action_sprite_dimension(:attack)
+          calc_animation(player,6,3,true)
+
+          if player.flip_horizontally == false
+            @wolves_shortlist = @wolves.select { |wolf|
+              if wolf.x >= (player.x)
+                true
+              else
+                false
+              end
+            }
+
+          elsif player.flip_horizontally == true
+            @wolves_shortlist = @wolves.select { |wolf|
+              if (wolf.x + wolf.w) <= (player.x + player.w)
+                true
+              else
+                false
+              end
+            }
+
+          end
+
+
+
+
+          @wolves_shortlist.each do |wolf|
+            if args.geometry.intersect_rect?(player_rect, wolf) &&
+                wolf.health > 0 && player.health > 0
+
+              if wolf.is_hit == false
+                wolf.hit(20)
+                args.outputs.sounds << "sounds/wolfbark.wav" unless @sound == "sound=false"
+                # puts "HIT"
+                # puts wolf.health
+                wolf.is_hit = true
+              end
+
+              if wolf.is_hit == true && @attack_timer <= 0
+                wolf.is_hit = false
+                wolf.reset_wolf_color()
+              end
+
+            else
+
+              # puts "NOT HIT"
+              wolf.is_hit = false
+            end
+          end
+
+        elsif @wolf_attack_timer <= 0
+          @wolf_attack_timer = 0
+
+        elsif @lightning_timer > 0
+          trigger_lightning
+
+        elsif @lightning_timer <= 0
+          @lightning_timer = 0
+          @wolves_x_array.clear
+          calc_animation(player,6,3,true)
+
+        else
+          calc_animation(player,6,3,true)
         end
 
-        calc_animation(wolf,4,5,true) unless wolf.health <= 0
-      end
-    end
 
+        @wolves.each do |wolf|
+          if args.geometry.intersect_rect?(player_rect, wolf) && @attack_timer <= 0 &&
+              @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
+
+            player.hit(2)
+            #puts "PLAYER HIT"
+            #puts player.health
+            @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
+          end
+
+          calc_animation(wolf,4,5,true) unless wolf.health <= 0
+        end
+      end
+
+    end # game end
     render
   end
 
