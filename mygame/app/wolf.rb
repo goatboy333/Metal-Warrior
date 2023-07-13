@@ -65,7 +65,7 @@ class Wolf
       elsif (@x + @w) < player_x #+ (player_w /2)
         @x += 5
         @flip_horizontally = true
-      elsif (@x + @w) < player_x #+ (player_w /2)
+      elsif (@x + @w) == player_x #+ (player_w /2)
         @x += 0
         @flip_horizontally = true
       
