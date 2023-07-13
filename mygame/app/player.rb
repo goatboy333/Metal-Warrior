@@ -34,6 +34,6 @@ class Player
   end
 
   def hit(damage)
-    @health -= 2 #damage
+    @health -= 1 #damage
   end
 end

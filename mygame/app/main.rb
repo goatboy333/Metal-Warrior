@@ -187,7 +187,7 @@ class MyGame
                 wolf.health > 0 && player.health > 0
 
               if wolf.is_hit == false
-                wolf.hit(20)
+                wolf.hit(40)
                 args.outputs.sounds << "sounds/wolfbark.wav" unless @sound == "sound=false"
                 # puts "HIT"
                 # puts wolf.health
