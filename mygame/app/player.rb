@@ -1,7 +1,7 @@
 class Player
   attr_sprite
   attr_reader :action, :max_health
-  attr_accessor :health
+  attr_accessor :health,:w,:h,:x
 
   def initialize(x, y)
     @max_health = 100
