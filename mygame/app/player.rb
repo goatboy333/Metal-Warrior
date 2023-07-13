@@ -23,6 +23,7 @@ class Player
                #die: 4 * @source_h}
     @source_x = 0
     @source_y = @action[:idle][:sprite_sheet_height]
+    @flip_horizontally = false
   end
 
   def action_sprite_dimension(action)

@@ -56,16 +56,16 @@ class Wolf
     # elsif @x > player_x and @x < (player_x + player_w) and @flip_horizontally = false
     #   @x = player_x + player_w
 
-      if @x > player_x + player_w #+ (player_w / 2)
+      if @x > player_x + 120 #+ (player_w / 2)
         @x -= 5 #speed
         @flip_horizontally = false
-      elsif @x == player_x + player_w
+      elsif @x == player_x + 120
         @x += 0
         @flip_horizontally = false
-      elsif (@x + @w) < player_x #+ (player_w /2)
+      elsif (@x + @w) < player_x + 70 #+ (player_w /2)
         @x += 5
         @flip_horizontally = true
-      elsif (@x + @w) == player_x #+ (player_w /2)
+      elsif (@x + @w) == player_x + 50 #+ (player_w /2)
         @x += 0
         @flip_horizontally = true
       

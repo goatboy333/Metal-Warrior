@@ -139,7 +139,10 @@ class MyGame
               false
             end 
           }
+
         end
+
+
           
 
         @wolves_shortlist.each do |wolf|
