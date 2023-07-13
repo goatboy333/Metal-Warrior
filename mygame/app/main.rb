@@ -26,7 +26,7 @@ class MyGame
 
     @game_end = false
     @game_timer = Time.now
-    @game_length_seconds = 60
+    @game_length_seconds = 1
 
     contents = args.gtk.read_file "config"
     @sound = contents.split("\n").first
@@ -47,6 +47,9 @@ class MyGame
       else
         # winner
         # display valhalla, automatic walk the champ into the hall.
+
+        args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/Walhalla_(1896)_by_Max_Brückner.jpg']
+
       end
     else
       # keep player
@@ -186,7 +189,7 @@ class MyGame
 
     end
 
-    if @jump_timer == 0 && @attack_timer == 0
+    if @jump_timer == 0 && @attack_timer == 0 && @game_end != true
       if keyboard.left
         player.x -= 10
         player.flip_horizontally = true
@@ -214,7 +217,10 @@ class MyGame
     # outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
 
     if ((args.state.tick_count / 60).to_i) == @game_length_seconds or @game_end
-      outputs.labels << {x: 400, y: 400, text: "GAME OVER!", r: 255, size_enum: 40}
+      outputs.labels << {x: 120, y: 500, text: "YOU FOUGHT A GLORIOUS BATTLE", r: 255, size_enum: 30}
+      outputs.labels << {x: 350, y: 350, text: "WELCOME TO WALHALLA", r: 255, size_enum: 20}
+
+      outputs.sprites << player
       @game_end = true
 
     elsif player.health <= 0
