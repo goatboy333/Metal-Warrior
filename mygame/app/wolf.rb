@@ -50,12 +50,25 @@ class Wolf
 
   def follow_player(player_x, player_w)
     if @health > 0
-      if @x > player_x + ((player_w / 2) + 30)
+    # if (@x + @w) > player_x and (@x + @w) < (player_x + player_w) and @flip_horizontally = true
+    #   @x = player_x 
+
+    # elsif @x > player_x and @x < (player_x + player_w) and @flip_horizontally = false
+    #   @x = player_x + player_w
+
+      if @x > player_x + 120 #+ (player_w / 2)
         @x -= 5 #speed
         @flip_horizontally = false
-      elsif @x < player_x + ((player_w / 2) - 200)
+      elsif @x == player_x + 120
+        @x += 0
+        @flip_horizontally = false
+      elsif (@x + @w) < player_x + 70 #+ (player_w /2)
         @x += 5
         @flip_horizontally = true
+      elsif (@x + @w) == player_x + 50 #+ (player_w /2)
+        @x += 0
+        @flip_horizontally = true
+      
         #else
         #  @x = @x
       end
