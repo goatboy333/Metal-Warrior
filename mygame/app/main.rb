@@ -19,6 +19,9 @@ class MyGame
     @jump_timer=0
     @attack_timer=0
     @lightning_timer=0
+
+    @game_ending_timer=60
+
     @wolves_x_array = []
     @dead_wolves = 0
     @dead_wolves_counter = 0
@@ -26,7 +29,7 @@ class MyGame
 
     @game_end = false
     @game_timer = Time.now
-    @game_length_seconds = 1
+    @game_length_seconds = 60
 
     contents = args.gtk.read_file "config"
     @sound = contents.split("\n").first
@@ -49,6 +52,13 @@ class MyGame
         # display valhalla, automatic walk the champ into the hall.
 
         args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/Walhalla_(1896)_by_Max_Brückner.jpg']
+
+        # Enlarge her
+
+        # Move the player towards the hall
+
+        # Shrink her as she gets close
+
 
       end
     else
