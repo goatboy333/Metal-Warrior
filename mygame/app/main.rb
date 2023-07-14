@@ -287,8 +287,13 @@ class MyGame
 
   def render
 
-    time_left = @game_length_seconds - (args.state.tick_count / 60).to_i
-    time_left = 0 if time_left < 0
+    if @player.health <= 0
+      time_left = @game_length_seconds
+    else
+      time_left = @game_length_seconds - (args.state.tick_count / 60).to_i
+      time_left = 0 if time_left < 0
+    end
+
     outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
 
     # outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
