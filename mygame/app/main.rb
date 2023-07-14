@@ -246,7 +246,11 @@ class MyGame
     #   player.source_y = player.action[:jump]
     # end
 
-    if (keyboard.space || keyboard.control) and @attack_timer <= 0
+    if @player.health <= 0 and keyboard.enter
+      $gtk.reset
+      initialize(args)
+
+    elsif (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
       player.action_sprite_dimension(:attack)
       args.outputs.sounds << "sounds/sword.wav" unless @sound == "sound=false"
@@ -307,7 +311,8 @@ class MyGame
       @game_end = true
 
     elsif player.health <= 0
-      outputs.labels << {x: 400, y: 400, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
+      outputs.labels << {x: 400, y: 500, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
+      outputs.labels << {x: 380, y: 350, text: "PRESS ENTER TO RETRY", r: 255, size_enum: 20}
     else
 
       creatures = [player] + @wolves
