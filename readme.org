@@ -25,9 +25,11 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
  - [X] Attack direction should be applied to the wolf attack (danch)
  - [X] Wolves should attack
  - [X] Build the ending (mick)
- - [ ] Add stun when either player or wolf is hit
  - [X] Fix ending if dead and timer is above zero, then display "your dead", stop timer, then restart
- - [ ] Upload to inch.io
+ - [X] Upload to inch.io
+ - [ ] Add stun when either player or wolf is hit
+ - [ ] Fight multiple enemies one after separated by count down
+   Every minute we could fade out and in to a different background or just different enemy.
 
 ** Optional
 
@@ -35,4 +37,3 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
 - [X] Change attack to single strike
 - [X] FIX: jump and attack = N/A
 - [X] Fight after player death in Valhalla = N/A
-- [ ] Wolves move back when hit
