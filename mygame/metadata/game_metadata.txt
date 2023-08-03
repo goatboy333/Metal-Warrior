@@ -1,7 +1,7 @@
 #devid=myname
 #devtitle=My Name
 #gameid=mygame
-#gametitle=My Game
+gametitle=Metal Warrior: Search for Valhalla
 #version=0.1
 #icon=metadata/icon.png
 
