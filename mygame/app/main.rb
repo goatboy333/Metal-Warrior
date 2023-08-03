@@ -31,8 +31,8 @@ class MyGame
     @game_timer = Time.now
     @game_length_seconds = 60
 
-    contents = args.gtk.read_file "config"
-    @sound = contents.split("\n").first
+    # contents = args.gtk.read_file "config"
+    # @sound = contents.split("\n").first
 
   end
 
@@ -105,7 +105,7 @@ class MyGame
       middleground args
       foreground args
 
-      args.outputs.sounds << "sounds/surprise-impact.ogg" unless @sound == "sound=false"
+      args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
 
 
       if @lightning_timer <= 0
@@ -188,7 +188,7 @@ class MyGame
 
               if wolf.is_hit == false
                 wolf.hit(40)
-                args.outputs.sounds << "sounds/wolfbark.wav" unless @sound == "sound=false"
+                args.outputs.sounds << "sounds/wolfbark.wav" #unless @sound == "sound=false"
                 # puts "HIT"
                 # puts wolf.health
                 wolf.is_hit = true
@@ -253,13 +253,13 @@ class MyGame
     elsif (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
       player.action_sprite_dimension(:attack)
-      args.outputs.sounds << "sounds/sword.wav" unless @sound == "sound=false"
+      args.outputs.sounds << "sounds/sword.wav" #unless @sound == "sound=false"
     end
 
     if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
       @lightning_timer = 30
       @previous_dead_wolves_count = @dead_wolves_counter
-      args.outputs.sounds << "sounds/thunder.wav" unless @sound == "sound=false"
+      args.outputs.sounds << "sounds/thunder.wav" #unless @sound == "sound=false"
       #trigger_lightning()
 
     end
