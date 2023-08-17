@@ -110,7 +110,7 @@ class MyGame
       if args.state.tick_count== 1
         args.audio[:music] = {
           input: 'sounds/surprise-impact.ogg',
-          gain: 1,
+          gain: 0.1,
           looping: true
         }
       end
@@ -257,6 +257,10 @@ class MyGame
         args.audio[:music].paused = true
         args.state.mute = true
       end
+    elsif keyboard.key_down.period
+        args.audio[:music].gain += 0.1
+    elsif keyboard.key_down.comma
+        args.audio[:music].gain -= 0.1
     end
 
     if @player.health <= 0 and keyboard.enter
