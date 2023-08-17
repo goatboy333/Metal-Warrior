@@ -36,7 +36,7 @@ class Wolf
     @r = 255
     @g = 0
     @b = 0
-    @stunned = 120
+    @stunned = 40
   end
 
   def reset_wolf_color()

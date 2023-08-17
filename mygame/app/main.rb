@@ -238,8 +238,13 @@ class MyGame
               wolf.stunned -= 1
           end
 
-          calc_animation(wolf,4,5,true) unless wolf.health <= 0
-
+          unless wolf.health <= 0
+            if wolf.stunned == 0
+              calc_animation(wolf,4,5,true) 
+            elsif   
+              calc_animation(wolf,1,5,true) 
+            end
+          end  
         end
       end
 
