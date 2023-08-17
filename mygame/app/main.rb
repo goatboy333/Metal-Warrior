@@ -105,8 +105,15 @@ class MyGame
       middleground args
       foreground args
 
-      args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
+      #args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
 
+      if args.state.tick_count== 1
+        args.audio[:music] = {
+          input: 'sounds/surprise-impact.ogg',
+          gain: 1,
+          looping: true
+        }
+      end
 
       if @lightning_timer <= 0
 
@@ -176,11 +183,7 @@ class MyGame
                 false
               end
             }
-
           end
-
-
-
 
           @wolves_shortlist.each do |wolf|
             if args.geometry.intersect_rect?(player_rect, wolf) &&
@@ -188,7 +191,7 @@ class MyGame
 
               if wolf.is_hit == false
                 wolf.hit(40)
-                args.outputs.sounds << "sounds/wolfbark.wav" #unless @sound == "sound=false"
+                args.outputs.sounds << "sounds/wolfbark.wav"  unless args.state.mute
                 # puts "HIT"
                 # puts wolf.health
                 wolf.is_hit = true
@@ -246,6 +249,16 @@ class MyGame
     #   player.source_y = player.action[:jump]
     # end
 
+    if keyboard.key_down.m
+      if args.state.mute
+        args.audio[:music].paused = false
+        args.state.mute = false
+      else
+        args.audio[:music].paused = true
+        args.state.mute = true
+      end
+    end
+
     if @player.health <= 0 and keyboard.enter
       $gtk.reset
       initialize(args)
@@ -253,13 +266,13 @@ class MyGame
     elsif (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
       player.action_sprite_dimension(:attack)
-      args.outputs.sounds << "sounds/sword.wav" #unless @sound == "sound=false"
+      args.outputs.sounds << "sounds/sword.wav" unless args.state.mute
     end
 
     if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
       @lightning_timer = 30
       @previous_dead_wolves_count = @dead_wolves_counter
-      args.outputs.sounds << "sounds/thunder.wav" #unless @sound == "sound=false"
+      args.outputs.sounds << "sounds/thunder.wav" unless args.state.mute
       #trigger_lightning()
 
     end
