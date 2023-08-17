@@ -1,7 +1,7 @@
 class Wolf
   attr_sprite
   attr_reader  :max_health, :action
-  attr_accessor :health, :is_hit, :timeout
+  attr_accessor :health, :is_hit, :timeout, :stunned
 
   def initialize(x,y)
     @max_health = 100
@@ -26,6 +26,7 @@ class Wolf
     @source_y = @action[:idle][:sprite_sheet_height]
 
     @timeout = 0
+    @stunned = 0
     @is_hit = false
 
   end
@@ -35,6 +36,7 @@ class Wolf
     @r = 255
     @g = 0
     @b = 0
+    @stunned = 120
   end
 
   def reset_wolf_color()
