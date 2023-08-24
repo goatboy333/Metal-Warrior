@@ -141,14 +141,6 @@ class MyGame
 
       #args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
 
-      if args.state.tick_count== 1
-        args.audio[:music] = {
-          input: 'sounds/surprise-impact.ogg',
-          gain: 0.1,
-          looping: true
-        }
-      end
-
       if @lightning_timer <= 0
 
         if (args.state.tick_count / 60) % Math.rand(8) == 0
@@ -296,6 +288,12 @@ class MyGame
     # end
 
     if @game_start == false and keyboard.space
+      args.audio[:music] = {
+        input: 'sounds/surprise-impact.ogg',
+        gain: 0.1,
+        looping: true
+      }
+
       @game_start = true
       @game_length_seconds = 60
       @splash_length_second = args.state.tick_count
@@ -360,14 +358,14 @@ class MyGame
 
   def render
 
-    if @game_start 
+    if @game_start
       if @player.health <= 0
         time_left = @game_length_seconds
       else
         time_left = @game_length_seconds - ((args.state.tick_count - @splash_length_second )/ 60).to_i
         time_left = 0 if time_left < 0
       end
-    
+
       outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
     end
     # outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
