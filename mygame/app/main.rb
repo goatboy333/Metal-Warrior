@@ -15,6 +15,7 @@ class MyGame
   def initialize(args)
     @player = Player.new(args.grid.w / 4, 50)
     @wolves = [ Wolf.new(args.grid.w - 200, 50) ]
+    @game_start = false
     @wolf_attack_timer = 18
     @jump_timer=0
     @attack_timer=0
@@ -43,6 +44,8 @@ class MyGame
   end
 
   def tick
+
+
     if @game_end
       if @player.health <= 0
         # loser
@@ -99,7 +102,8 @@ class MyGame
         end
 
       end # health > 0
-    elsif args.state.tick_count < 300 # Splash screen
+    elsif @game_start == false # Splash screen
+      handle_input
 
       args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/gabriel-tovar--dfqaTOIFVA-unsplash.jpg']
 
@@ -108,6 +112,19 @@ class MyGame
         400,                   # Y
         "Metal Warrior Search for Valhalla",         # TEXT
         40,                     # SIZE_ENUM
+        1,                     # ALIGNMENT_ENUM
+        255,                     # RED
+        0,                     # GREEN
+        0,                     # BLUE
+        255,                   # ALPHA
+        "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
+      ]
+
+      args.outputs.labels << [
+        640,                   # X
+        200,                   # Y
+        "Press SPACE to start",         # TEXT
+        20,                     # SIZE_ENUM
         1,                     # ALIGNMENT_ENUM
         255,                     # RED
         0,                     # GREEN
@@ -277,6 +294,10 @@ class MyGame
     #   @jump_timer = 60
     #   player.source_y = player.action[:jump]
     # end
+
+    if @game_start == false and keyboard.space
+      @game_start = true
+    end
 
     if keyboard.key_down.m
       if args.state.mute
