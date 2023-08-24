@@ -99,26 +99,29 @@ class MyGame
         end
 
       end # health > 0
+    elsif args.state.tick_count < 300 # Splash screen
+
+      args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/gabriel-tovar--dfqaTOIFVA-unsplash.jpg']
+
+      args.outputs.labels << [
+        640,                   # X
+        400,                   # Y
+        "Metal Warrior Search for Valhalla",         # TEXT
+        40,                     # SIZE_ENUM
+        1,                     # ALIGNMENT_ENUM
+        255,                     # RED
+        0,                     # GREEN
+        0,                     # BLUE
+        255,                   # ALPHA
+        "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
+      ]
+
     else
       # keep player
       background args
       middleground args
       foreground args
 
-      if args.state.tick_count < 90
-        args.outputs.labels << [
-          640,                   # X
-          400,                   # Y
-          "Metal Warrior Search for Valhalla",         # TEXT
-          40,                     # SIZE_ENUM
-          1,                     # ALIGNMENT_ENUM
-          255,                     # RED
-          0,                     # GREEN
-          0,                     # BLUE
-          255,                   # ALPHA
-          "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
-        ]
-      end
       #args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
 
       if args.state.tick_count== 1
