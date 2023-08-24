@@ -27,8 +27,9 @@ Metal Warrior is a side scroller adventure game in which you start of as a villa
  - [X] Build the ending (mick)
  - [X] Fix ending if dead and timer is above zero, then display "your dead", stop timer, then restart
  - [X] Upload to inch.io
- - [X] Add stun when either player or wolf is hit
  - [X] Work out a better way to stop sound in dev mode, use "M" to mute
+ - [X] Add stun when either player or wolf is hit
+ - [ ] Freeze wolf when hit
  - [ ] Splash screen
  - [ ] Fight multiple enemies one after separated by count down
    Every minute we could fade out and in to a different background or just different enemy.
