@@ -105,6 +105,20 @@ class MyGame
       middleground args
       foreground args
 
+      if args.state.tick_count < 90
+        args.outputs.labels << [
+          640,                   # X
+          400,                   # Y
+          "Metal Warrior Search for Valhalla",         # TEXT
+          40,                     # SIZE_ENUM
+          1,                     # ALIGNMENT_ENUM
+          255,                     # RED
+          0,                     # GREEN
+          0,                     # BLUE
+          255,                   # ALPHA
+          "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
+        ]
+      end
       #args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
 
       if args.state.tick_count== 1
@@ -237,17 +251,17 @@ class MyGame
             end
           end
 
-          if wolf.stunned > 0 
+          if wolf.stunned > 0
               wolf.stunned -= 1
           end
 
           unless wolf.health <= 0
             if wolf.stunned == 0
-              calc_animation(wolf,4,5,true) 
-            elsif   
-              calc_animation(wolf,1,5,true) 
+              calc_animation(wolf,4,5,true)
+            elsif
+              calc_animation(wolf,1,5,true)
             end
-          end  
+          end
         end
       end
 
