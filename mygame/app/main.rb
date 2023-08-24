@@ -22,7 +22,7 @@ class MyGame
     @lightning_timer=0
 
     @game_ending_timer=60
-
+    @splash_length_second = 0
     @wolves_x_array = []
     @dead_wolves = 0
     @dead_wolves_counter = 0
@@ -30,7 +30,7 @@ class MyGame
 
     @game_end = false
     @game_timer = Time.now
-    @game_length_seconds = 60
+    @game_length_seconds = nil
 
     # contents = args.gtk.read_file "config"
     # @sound = contents.split("\n").first
@@ -133,7 +133,7 @@ class MyGame
         "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
       ]
 
-    else
+    else  # Game starts here
       # keep player
       background args
       middleground args
@@ -297,6 +297,8 @@ class MyGame
 
     if @game_start == false and keyboard.space
       @game_start = true
+      @game_length_seconds = 60
+      @splash_length_second = args.state.tick_count
     end
 
     if keyboard.key_down.m
@@ -358,19 +360,20 @@ class MyGame
 
   def render
 
-    if @player.health <= 0
-      time_left = @game_length_seconds
-    else
-      time_left = @game_length_seconds - (args.state.tick_count / 60).to_i
-      time_left = 0 if time_left < 0
+    if @game_start 
+      if @player.health <= 0
+        time_left = @game_length_seconds
+      else
+        time_left = @game_length_seconds - ((args.state.tick_count - @splash_length_second )/ 60).to_i
+        time_left = 0 if time_left < 0
+      end
+    
+      outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
     end
-
-    outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
-
     # outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
     # outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
 
-    if ((args.state.tick_count / 60).to_i) == @game_length_seconds or @game_end
+    if (((args.state.tick_count - @splash_length_second ) / 60).to_i) == @game_length_seconds or @game_end
       outputs.labels << {x: 120, y: 500, text: "YOU FOUGHT A GLORIOUS BATTLE", r: 255, size_enum: 30}
       outputs.labels << {x: 350, y: 350, text: "WELCOME TO WALHALLA", r: 255, size_enum: 20}
 
