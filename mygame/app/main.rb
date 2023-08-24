@@ -331,7 +331,7 @@ class MyGame
 
     end
 
-    if @jump_timer == 0 && @attack_timer == 0 && @game_end != true
+    if @jump_timer == 0 && @attack_timer == 0 && @game_end != true && @game_start
       if keyboard.left
         player.x -= 10
         player.flip_horizontally = true
