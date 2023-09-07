@@ -15,13 +15,14 @@ class MyGame
   def initialize(args)
     @player = Player.new(args.grid.w / 4, 50)
     @wolves = [ Wolf.new(args.grid.w - 200, 50) ]
+    @game_start = false
     @wolf_attack_timer = 18
     @jump_timer=0
     @attack_timer=0
     @lightning_timer=0
 
     @game_ending_timer=60
-
+    @splash_length_second = 0
     @wolves_x_array = []
     @dead_wolves = 0
     @dead_wolves_counter = 0
@@ -29,7 +30,7 @@ class MyGame
 
     @game_end = false
     @game_timer = Time.now
-    @game_length_seconds = 60
+    @game_length_seconds = nil
 
     # contents = args.gtk.read_file "config"
     # @sound = contents.split("\n").first
@@ -43,6 +44,8 @@ class MyGame
   end
 
   def tick
+
+
     if @game_end
       if @player.health <= 0
         # loser
@@ -99,14 +102,44 @@ class MyGame
         end
 
       end # health > 0
-    else
+    elsif @game_start == false # Splash screen
+      handle_input
+
+      args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/gabriel-tovar--dfqaTOIFVA-unsplash.jpg']
+
+      args.outputs.labels << [
+        640,                   # X
+        400,                   # Y
+        "Metal Warrior Search for Valhalla",         # TEXT
+        40,                     # SIZE_ENUM
+        1,                     # ALIGNMENT_ENUM
+        255,                     # RED
+        0,                     # GREEN
+        0,                     # BLUE
+        255,                   # ALPHA
+        "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
+      ]
+
+      args.outputs.labels << [
+        640,                   # X
+        200,                   # Y
+        "Press SPACE to start",         # TEXT
+        20,                     # SIZE_ENUM
+        1,                     # ALIGNMENT_ENUM
+        255,                     # RED
+        0,                     # GREEN
+        0,                     # BLUE
+        255,                   # ALPHA
+        "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
+      ]
+
+    else  # Game starts here
       # keep player
       background args
       middleground args
       foreground args
 
-      args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
-
+      #args.outputs.sounds << "sounds/surprise-impact.ogg" #unless @sound == "sound=false"
 
       if @lightning_timer <= 0
 
@@ -176,11 +209,7 @@ class MyGame
                 false
               end
             }
-
           end
-
-
-
 
           @wolves_shortlist.each do |wolf|
             if args.geometry.intersect_rect?(player_rect, wolf) &&
@@ -188,7 +217,7 @@ class MyGame
 
               if wolf.is_hit == false
                 wolf.hit(40)
-                args.outputs.sounds << "sounds/wolfbark.wav" #unless @sound == "sound=false"
+                args.outputs.sounds << "sounds/wolfbark.wav"  unless args.state.mute
                 # puts "HIT"
                 # puts wolf.health
                 wolf.is_hit = true
@@ -223,16 +252,28 @@ class MyGame
 
 
         @wolves.each do |wolf|
-          if args.geometry.intersect_rect?(player_rect, wolf) && @attack_timer <= 0 &&
-              @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
+          if wolf.stunned == 0
+            if args.geometry.intersect_rect?(player_rect, wolf) && @attack_timer <= 0 &&
+                @wolf_attack_timer > 0 && wolf.health > 0 && player.health > 0
 
-            player.hit(2)
-            #puts "PLAYER HIT"
-            #puts player.health
-            @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
+              player.hit(2)
+              #puts "PLAYER HIT"
+              #puts player.health
+              @wolf_attack_timer = 18 if @wolf_attack_timer <= 0
+            end
           end
 
-          calc_animation(wolf,4,5,true) unless wolf.health <= 0
+          if wolf.stunned > 0
+              wolf.stunned -= 1
+          end
+
+          unless wolf.health <= 0
+            if wolf.stunned == 0
+              calc_animation(wolf,4,5,true)
+            elsif
+              calc_animation(wolf,1,5,true)
+            end
+          end
         end
       end
 
@@ -246,6 +287,32 @@ class MyGame
     #   player.source_y = player.action[:jump]
     # end
 
+    if @game_start == false and keyboard.space
+      args.audio[:music] = {
+        input: 'sounds/surprise-impact.ogg',
+        gain: 0.1,
+        looping: true
+      }
+
+      @game_start = true
+      @game_length_seconds = 60
+      @splash_length_second = args.state.tick_count
+    end
+
+    if keyboard.key_down.m
+      if args.state.mute
+        args.audio[:music].paused = false
+        args.state.mute = false
+      else
+        args.audio[:music].paused = true
+        args.state.mute = true
+      end
+    elsif keyboard.key_down.period
+        args.audio[:music].gain += 0.1
+    elsif keyboard.key_down.comma
+        args.audio[:music].gain -= 0.1
+    end
+
     if @player.health <= 0 and keyboard.enter
       $gtk.reset
       initialize(args)
@@ -253,18 +320,18 @@ class MyGame
     elsif (keyboard.space || keyboard.control) and @attack_timer <= 0
       @attack_timer = 18
       player.action_sprite_dimension(:attack)
-      args.outputs.sounds << "sounds/sword.wav" #unless @sound == "sound=false"
+      args.outputs.sounds << "sounds/sword.wav" unless args.state.mute
     end
 
     if (keyboard.alt) and @lightning_timer <= 0 and (@dead_wolves_counter - @previous_dead_wolves_count >= 5)
       @lightning_timer = 30
       @previous_dead_wolves_count = @dead_wolves_counter
-      args.outputs.sounds << "sounds/thunder.wav" #unless @sound == "sound=false"
+      args.outputs.sounds << "sounds/thunder.wav" unless args.state.mute
       #trigger_lightning()
 
     end
 
-    if @jump_timer == 0 && @attack_timer == 0 && @game_end != true
+    if @jump_timer == 0 && @attack_timer == 0 && @game_end != true && @game_start
       if keyboard.left
         player.x -= 10
         player.flip_horizontally = true
@@ -291,19 +358,20 @@ class MyGame
 
   def render
 
-    if @player.health <= 0
-      time_left = @game_length_seconds
-    else
-      time_left = @game_length_seconds - (args.state.tick_count / 60).to_i
-      time_left = 0 if time_left < 0
+    if @game_start
+      if @player.health <= 0
+        time_left = @game_length_seconds
+      else
+        time_left = @game_length_seconds - ((args.state.tick_count - @splash_length_second )/ 60).to_i
+        time_left = 0 if time_left < 0
+      end
+
+      outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
     end
-
-    outputs.labels << {x: 1000, y: 700, text: "TIME LEFT : " + time_left.to_s, r: 255, g: 255, size_enum: 5}
-
     # outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
     # outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
 
-    if ((args.state.tick_count / 60).to_i) == @game_length_seconds or @game_end
+    if (((args.state.tick_count - @splash_length_second ) / 60).to_i) == @game_length_seconds or @game_end
       outputs.labels << {x: 120, y: 500, text: "YOU FOUGHT A GLORIOUS BATTLE", r: 255, size_enum: 30}
       outputs.labels << {x: 350, y: 350, text: "WELCOME TO WALHALLA", r: 255, size_enum: 20}
 
