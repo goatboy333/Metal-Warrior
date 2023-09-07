@@ -1,7 +1,7 @@
 devid=map7@fastmail.com
-devtitle=Mick & Danch Enterprises
-gameid=metal-warrior-search-for-valhalla
-gametitle=Metal Warrior: Search for Valhalla
+devtitle=mick_danch_enterprises
+gameid=metal_warrior_search_for_valhalla
+gametitle=metal_warrior_search_for_valhalla
 version=0.1
 icon=metadata/icon.png
 
