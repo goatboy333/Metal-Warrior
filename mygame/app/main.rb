@@ -371,16 +371,16 @@ class MyGame
     # outputs.labels << {x: 1000, y: 650, text: "DEAD ENEMIES : " + @dead_wolves_counter.to_s, r: 255, g: 255, size_enum: 5}
     # outputs.labels << {x: 1000, y: 600, text: "P DEAD ENEMIES : " + @previous_dead_wolves_count.to_s, r: 255, g: 255, size_enum: 5}
 
-    if (((args.state.tick_count - @splash_length_second ) / 60).to_i) == @game_length_seconds or @game_end
+    if player.health <= 0
+      outputs.labels << {x: 400, y: 500, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
+      outputs.labels << {x: 380, y: 350, text: "PRESS ENTER TO RETRY", r: 255, size_enum: 20}
+    elsif (((args.state.tick_count - @splash_length_second ) / 60).to_i) == @game_length_seconds or @game_end
       outputs.labels << {x: 120, y: 500, text: "YOU FOUGHT A GLORIOUS BATTLE", r: 255, size_enum: 30}
       outputs.labels << {x: 350, y: 350, text: "WELCOME TO WALHALLA", r: 255, size_enum: 20}
 
       outputs.sprites << player
       @game_end = true
 
-    elsif player.health <= 0
-      outputs.labels << {x: 400, y: 500, text: "YOU'RE DEAD!", r: 255, size_enum: 40}
-      outputs.labels << {x: 380, y: 350, text: "PRESS ENTER TO RETRY", r: 255, size_enum: 20}
     else
 
       creatures = [player] + @wolves
