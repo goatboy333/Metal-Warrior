@@ -51,56 +51,7 @@ class MyGame
         # loser
         # Display 'you suck'
       else
-        # winner
-        # display valhalla, automatic walk the champ into the hall.
-
-        if @game_ending_timer > 48
-          args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/Walhalla_(1896)_by_Max_Brückner.jpg']
-
-        else
-          args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/Walhall_by_Emil_Doepler.jpg']
-          player.x = 700
-          player.y = 200
-          player.w = 280
-          player.h = 240
-
-        end
-
-        # Enlarge her
-        if @game_ending_timer==60
-          player.x = 1150
-          player.flip_horizontally = true
-          @game_ending_timer -= 1
-
-        else
-
-          if @game_ending_timer > 55
-
-            # Move the player towards the hall
-            player.x -= 2
-
-          elsif @game_ending_timer > 49
-
-            # Shrink her as she gets close
-            player.y += 1
-            player.x -= 1
-
-            if player.w > 70 and player.y > 200
-              player.w -= 0.5
-              player.h -= 0.5
-            end
-
-          elsif @game_ending_timer > 48
-            player.y += 1
-
-          else
-
-
-          end
-
-          @game_ending_timer -= 1 if (args.state.tick_count % 60) == 0
-        end
-
+        winner_ending args
       end # health > 0
     elsif @game_start == false # Splash screen
       splash_screen args
@@ -440,4 +391,54 @@ end
     255,                   # ALPHA
     "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
   ]
+end
+
+ # display valhalla, automatic walk the champ into the hall.
+ def winner_ending args
+  if @game_ending_timer > 48
+    args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/Walhalla_(1896)_by_Max_Brückner.jpg']
+
+  else
+    args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/Walhall_by_Emil_Doepler.jpg']
+    player.x = 700
+    player.y = 200
+    player.w = 280
+    player.h = 240
+
+  end
+
+  # Enlarge her
+  if @game_ending_timer==60
+    player.x = 1150
+    player.flip_horizontally = true
+    @game_ending_timer -= 1
+
+  else
+
+    if @game_ending_timer > 55
+
+      # Move the player towards the hall
+      player.x -= 2
+
+    elsif @game_ending_timer > 49
+
+      # Shrink her as she gets close
+      player.y += 1
+      player.x -= 1
+
+      if player.w > 70 and player.y > 200
+        player.w -= 0.5
+        player.h -= 0.5
+      end
+
+    elsif @game_ending_timer > 48
+      player.y += 1
+
+    else
+
+
+    end
+
+    @game_ending_timer -= 1 if (args.state.tick_count % 60) == 0
+  end
 end
