@@ -103,36 +103,7 @@ class MyGame
 
       end # health > 0
     elsif @game_start == false # Splash screen
-      handle_input
-
-      args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/gabriel-tovar--dfqaTOIFVA-unsplash.jpg']
-
-      args.outputs.labels << [
-        640,                   # X
-        400,                   # Y
-        "Metal Warrior Search for Valhalla",         # TEXT
-        40,                     # SIZE_ENUM
-        1,                     # ALIGNMENT_ENUM
-        255,                     # RED
-        0,                     # GREEN
-        0,                     # BLUE
-        255,                   # ALPHA
-        "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
-      ]
-
-      args.outputs.labels << [
-        640,                   # X
-        200,                   # Y
-        "Press SPACE to start",         # TEXT
-        20,                     # SIZE_ENUM
-        1,                     # ALIGNMENT_ENUM
-        255,                     # RED
-        0,                     # GREEN
-        0,                     # BLUE
-        255,                   # ALPHA
-        "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
-      ]
-
+      splash_screen args
     else  # Game starts here
       # keep player
       background args
@@ -437,4 +408,36 @@ def tick args
   $my_game ||= MyGame.new(args)
   $my_game.args = args
   $my_game.tick
+end
+
+ def splash_screen args
+  handle_input
+
+  args.outputs.sprites << [0, 0, 1280, 720, 'sprites/background/gabriel-tovar--dfqaTOIFVA-unsplash.jpg']
+
+  args.outputs.labels << [
+    640,                   # X
+    400,                   # Y
+    "Metal Warrior Search for Valhalla",         # TEXT
+    40,                     # SIZE_ENUM
+    1,                     # ALIGNMENT_ENUM
+    255,                     # RED
+    0,                     # GREEN
+    0,                     # BLUE
+    255,                   # ALPHA
+    "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
+  ]
+
+  args.outputs.labels << [
+    640,                   # X
+    200,                   # Y
+    "Press SPACE to start",         # TEXT
+    20,                     # SIZE_ENUM
+    1,                     # ALIGNMENT_ENUM
+    255,                     # RED
+    0,                     # GREEN
+    0,                     # BLUE
+    255,                   # ALPHA
+    "fonts/GrimoireOfDeath-2O2jX.ttf"   # FONT
+  ]
 end
